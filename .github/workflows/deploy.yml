@@ -30,7 +30,7 @@ jobs:
             git pull origin main
 
             echo ">>> Buduję aplikację Blazor Server do /var/www/publish/"
-            dotnet publish /var/www/git/SaleMarket/SaleMarket.csproj -c Release -o /var/www/publish
+            dotnet publish /var/www/git/SaleMarket/SaleMarket/SaleMarket.csproj -c Release -o /var/www/publish
 
             echo ">>> Restartuję usługę SaleMarket"
             sudo systemctl restart salemarket
