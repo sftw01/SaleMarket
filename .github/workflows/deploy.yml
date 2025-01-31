@@ -27,7 +27,7 @@ jobs:
             cd /var/www/git/SaleMarket
 
             echo ">>> Pobieram najnowsze zmiany z GitHuba"
-            git pull origin main
+            git pull origin master
 
             echo ">>> Buduję aplikację Blazor Server do /var/www/publish/"
             dotnet publish /var/www/git/SaleMarket/SaleMarket/SaleMarket.csproj -c Release -o /var/www/publish
