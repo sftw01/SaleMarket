@@ -1,0 +1,93 @@
+﻿@page "/Cart"
+
+@rendermode InteractiveServer
+
+
+
+@inject NavigationManager navigationManager
+@inject NavMenuManager navMenuManager
+
+<PageTitle>ProductDetails5</PageTitle>
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+
+<AuthorizeView>
+
+    <Authorized>
+        <CartContainer></CartContainer>
+        <CartSubmit></CartSubmit>
+    </Authorized>
+
+    <NotAuthorized>
+        @* Redirect user to login page *@
+        @if (navigationManager.Uri != navigationManager.BaseUri + "Account/")
+        {
+            navigationManager.NavigateTo("Account/", true);
+        }
+    </NotAuthorized>
+
+</AuthorizeView>
+
+
+
+
+
+
+
+
+
+<FooterStandard></FooterStandard>
+
+<ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+
+<FloatingButtonBack NavigationTarget="household" Callback="GoTo" />
+
+
+
+
+
+
+
+@code {
+
+private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+
+protected override void OnInitialized()
+{
+
+Model.ProductPrice = 0.99m;
+// Model.ProductQuantityStatus = ProductQuantityStatus.Empty;
+Model.TotalStock = 4;
+// Model.ProductQuantityStatus = ProductQuantityStatus.Low;
+Model.ProductColorButton = "#6e2e6d";
+
+//set navmenu color button
+navMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+
+
+}
+
+
+//procedute invoked from child component, when user clikcs on Add to cart button
+private async Task AddedToCart(int quantity)
+{
+Console.WriteLine($"Added to cart: {quantity}");
+
+await _modalAddToCartNotification.Show();
+
+}
+
+
+private void GoTo(string target)
+{
+Console.WriteLine($"Navigating to: {target}");
+navigationManager.NavigateTo(target, true);
+}
+}

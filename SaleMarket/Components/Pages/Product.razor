@@ -1,0 +1,124 @@
+﻿@page "/Product/{id:guid}"
+@using SaleMarket.Classes
+@using SaleMarket.ProdDetails
+@using SaleMarket.Components.Layout
+@using SaleMarket.Components.Comp.ProductDetailsComponent1
+@using SaleMarket.Components.Comp.Footers
+@using SaleMarket.Components.Comp.FloatingButtonBack
+
+
+@using Microsoft.EntityFrameworkCore;
+@using SaleMarket.Models
+@using SaleMarket.Items
+
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+
+@inject ApplicationDbContext _context
+@inject IMapper _mapper
+
+<PageTitle>Product Feetch</PageTitle>
+
+
+<NavMenu BannerType="BanerType.Advertisement" />
+<NavMenu BannerType="BanerType.NavigationSlim" />
+
+
+<ProductDetailsComponent1 ModelInput="Model" OnAddToCart="AddedToCart"></ProductDetailsComponent1>
+<ProductDetailsComponent2 Title="Opis produktu" Content="@Model.ProductDescription"  HeaderColor="red"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Dane techniczne" Content="@Model.ProductTechnicalDetails" HeaderColor="black"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Opinie klientów" HeaderColor="green"></ProductDetailsComponent2>
+
+<FooterStandard></FooterStandard>
+
+<FloatingButtonBack NavigationTarget="Elektronika" />
+
+<ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+
+
+
+@code {
+
+    [Parameter]
+    public Guid id { get; set; } // GUID przekazany z URL
+
+    private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+    private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+    protected override void OnInitialized()
+    {
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //for navigation menu - set button backlight and color
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+
+        //feed data from db by id
+        Guid stockItemId = id; 
+        StockItem stockItem = await _context.StockItems.FirstOrDefaultAsync(si => si.Id == stockItemId);
+
+        if (stockItem != null)
+        {
+            Console.WriteLine($"Nazwa: {stockItem.ProductName}, Cena: {stockItem.ProductPrice}");
+        }
+        else
+        {
+            Console.WriteLine("Element o podanym ID nie istnieje.");
+        }
+
+
+
+        Model.TotalStock = stockItem.ProductQuantity;
+        Model.ProductName = stockItem.ProductName;
+        Model.ProductAvailability = stockItem.ProductAvailability;
+        Model.ProductPrice = stockItem.ProductPrice;
+        Model.ProductColorBorder = stockItem.ProductColorBorder;
+        Model.ProductColorButton = stockItem.ProductColorButton;
+        Model.ProductDescription = stockItem.ProductDescription;
+        Model.ProductTechnicalDetails = stockItem.ProductTechnicalDetails;
+        Model.ProductImage = stockItem.ProductImage;
+       
+
+        //map data to ProductDetailsModel
+        // Model = _mapper.Map<ProductDetailsModel>(stockItem);
+
+        Console.WriteLine($"StockItems name: {stockItem.ProductName}");
+        Console.WriteLine($"StockItems price: {stockItem.ProductPrice}");
+        Console.WriteLine($"StockItems desc: {stockItem.ProductDescription}");
+        Console.WriteLine($"StockItems qty: {stockItem.ProductQuantity}");
+        Console.WriteLine($"StockItems avl: {stockItem.ProductAvailability}");
+        Console.WriteLine($"StockItems img: {stockItem.ProductImage.Length}");
+
+
+
+        
+        Console.WriteLine($"Model name: {Model.ProductName}");
+        Console.WriteLine($"Model price: {Model.ProductPrice}");
+        Console.WriteLine($"Model desc: {Model.ProductDescription}");
+        Console.WriteLine($"Model qty: {Model.ProductQuantity}");
+        Console.WriteLine($"Model avl: {Model.ProductAvailability}");
+        Console.WriteLine($"Model img: {stockItem.ProductImage.Length}");
+
+
+        StateHasChanged();
+
+
+    }
+
+    //procedute invoked from child component, when user clikcs on Add to cart button
+    private async Task AddedToCart(int quantity)
+    {
+        Console.WriteLine($"Added to cart: {quantity}");
+        await _modalAddToCartNotification.Show();
+
+    }
+
+}

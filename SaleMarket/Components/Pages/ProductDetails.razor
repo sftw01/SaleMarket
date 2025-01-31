@@ -1,0 +1,60 @@
+﻿@page "/ProductDetails"
+@using SaleMarket.Classes
+@using SaleMarket.ProdDetails
+@using SaleMarket.Components.Layout
+@using SaleMarket.Components.Comp.ProductDetailsComponent1
+@using SaleMarket.Components.Comp.Footers
+@using SaleMarket.Components.Comp.FloatingButtonBack
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+
+
+
+
+<NavMenu BannerType="BanerType.Advertisement" />
+<NavMenu BannerType="BanerType.NavigationSlim"/>
+
+
+<ProductDetailsComponent1 ModelInput="Model" OnAddToCart="AddedToCart"></ProductDetailsComponent1>
+<ProductDetailsComponent2 Title="Opis produktu" HeaderColor="red"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Dane techniczne" HeaderColor="black"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Opinie klientów" HeaderColor="green"></ProductDetailsComponent2>
+
+<FooterStandard></FooterStandard>
+
+<FloatingButtonBack NavigationTarget="household"/>
+<ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+
+
+
+@code {
+
+
+    private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+    private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+    protected override void OnInitialized()
+    {
+        Model.ProductPrice = 19.98m;
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Full;
+        Model.ProductColorButton = Colors.myColorGreen;
+        Model.TotalStock = 57;
+        Model.ProductName = "Koszulka z nadrukiem";
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+
+    }
+    
+    //procedute invoked from child component, when user clikcs on Add to cart button
+    private async Task AddedToCart(int quantity)
+    {
+        Console.WriteLine($"Added to cart: {quantity}");
+        await _modalAddToCartNotification.Show();
+
+    }
+
+}

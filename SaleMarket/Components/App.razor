@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="/" />
+    <link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]" />
+    <link rel="stylesheet" href="@Assets["app.css"]" />
+    <link rel="stylesheet" href="@Assets["SaleMarket.styles.css"]" />
+
+
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+AU+SA&display=swap"
+          rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Saira+Condensed:400,700|Saira:300,400&amp;subset=latin-ext"
+          rel="stylesheet" />
+
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=mail" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Playwrite+AU+SA&display=swap"
+          rel="stylesheet" />
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Cairo:wght@200..1000&family=Playwrite+AU+SA&display=swap"
+          rel="stylesheet" />
+
+
+    <link rel="stylesheet" href="lib/css/style.css" />
+    <link rel="stylesheet" href="lib/css/style-product-page.css" />
+
+    <link rel="stylesheet" href="lib/css/prodyctDetails.css" />
+    <link rel="stylesheet" href="lib/css/prodyctDetails2.css" />
+
+    <link rel="stylesheet" href="lib/css/floating-button.css" />
+    <link rel="stylesheet" href="lib/css/emptyPage.css" />
+    <link rel="stylesheet" href="lib/css/loadingPage.css" />
+    <link rel="stylesheet" href="lib/css/ModalAddToCartNotification.css" />
+    <link rel="stylesheet" href="lib/css/mainBaner.css" />
+    <link rel="stylesheet" href="lib/css/marginManage.css" />
+    <link rel="stylesheet" href="lib/css/mainBanerSlim.css" />
+    <link rel="stylesheet" href="lib/css/footerStandard.css" />
+    <link rel="stylesheet" href="lib/css/modalWarning.css" />
+    <link rel="stylesheet" href="lib/css/cartContainer.css">
+    <link rel="stylesheet" href="lib/css/cartItem.css">
+    <link rel="stylesheet" href="lib/css/cartSubmit.css">
+    <link rel="stylesheet" href="lib/css/addItemForm.css">
+    <link rel="stylesheet" href="lib/css/admin.css">
+    <link rel="stylesheet" href="lib/css/login.css">
+    <link rel="stylesheet" href="lib/css/register.css">
+
+
+
+
+
+    <script src="https://kit.fontawesome.com/882c9582f0.js"
+            crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+    <ImportMap />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <HeadOutlet @rendermode="PageRenderMode" />
+</head>
+
+<body>
+    <Routes @rendermode="PageRenderMode" />
+    <script src="_framework/blazor.web.js"></script>
+</body>
+
+</html>
+
+@code {
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    private IComponentRenderMode? PageRenderMode =>
+        HttpContext.AcceptsInteractiveRouting() ? InteractiveServer : null;
+}

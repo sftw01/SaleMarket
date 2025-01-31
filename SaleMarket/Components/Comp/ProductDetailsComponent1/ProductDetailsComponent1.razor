@@ -1,0 +1,193 @@
+﻿@using Microsoft.Extensions.Logging
+@using SaleMarket.Components.Comp.Modals
+@using SaleMarket.ProdDetails
+@inject NavigationManager NavigationManager
+
+@inject ILogger<ProductDetailsComponent1> Logger
+@inject ILoggerFactory LoggerFactory
+
+@* @inject ApplicationDbContext _context *@
+@inject IMapper _mapper
+
+
+
+<div class="product-details" style=" --border-color: @_model.ProductColorBorder; --main-color: @_model.ProductColorButton; --color-status-led: @_model.StatusLedColor; --color-status-span: @_model.StatusSpanColor;">
+
+	<div class="product-details-header">
+		<img src="@GetImageSrc(_model.ProductImage)" />
+	</div>
+
+	<div class="product-details-name">
+		<span>@_model.ProductName</span>
+	</div>
+
+	<div class="product-details-price">
+
+		<span>@String.Format("{0:0.00}", _model.ProductPrice)</span>
+		<span>@_model.PriceInfo</span>
+	</div>
+
+	<div class="product-details-quantity">
+		<i class="fa-solid fa-minus" @onclick="ButtonDecClick"></i>
+		<span>@_model.ProductQuantity</span>
+		<i class="fa-solid fa-plus" @onclick="ButtonIncClick"></i>
+
+		<span>z @_model.TotalStock szt.</span>
+	</div>
+
+	<button class="product-details-button" @onclick="BtnAddToCartClick">Dodaj do koszyka</button>
+
+
+
+
+	<div class="product-details-benefit">
+
+        @if (_model.TotalStock == 0)
+        {
+            <div>
+                <div></div>
+                <span>
+                    <span>@_model.StatusText</span>
+                    <span></span>(@_model.TotalStock szt. w magazynie)
+                </span>
+            </div>
+        } else {
+			<div>
+				<div></div>
+
+				<span>
+					<span>@_model.StatusText</span>
+					<span>Wysyłka w piątek </span>(@_model.TotalStock szt. w magazynie)
+				</span>
+			</div>
+		}
+
+
+
+
+
+
+
+		<ul>
+			<li>
+				<i class="fa-solid fa-truck-fast"></i>
+				<span>Darmowa i szybka dostawa</span>
+			</li>
+			<li>
+				<i class="fa-solid fa-rotate-left"></i>
+				<span>30 dni na łatwy zwrot</span>
+			</li>
+
+			<li>
+				<i class="fa-solid fa-shield-halved"></i>
+				<span>Bezpieczne zakupy</span>
+			</li>
+		</ul>
+	</div>
+</div>
+
+
+<ModalWarning ModalType="EnumTypes.ModalType.Info" @ref="_modalWarning"></ModalWarning>
+
+
+@code {
+
+	private ModalWarning _modalWarning = new ModalWarning();
+
+	//callback from this component to parent component, invoked when user clicks on Add to cart button
+	[Parameter]
+	public EventCallback <int>OnAddToCart { get; set; }
+
+
+	[Parameter]
+	public ProductDetailsModel? ModelInput { get; set; }
+	//model actually we work on
+	private ProductDetailsModel? _model = new ProductDetailsModel();
+
+
+	protected override void OnInitialized()
+	{
+		_model = ModelInput;
+
+        Console.WriteLine($"ProductDetailsComponent1 - OnInitialized - ModelInput: {_model.ProductColorBorder}");
+		Console.WriteLine($"ProductDetailsComponent1 - OnInitialized - ModelInput: {_model.ProductColorButton}");
+
+
+	}
+
+
+	private async Task ButtonIncClick()
+	{
+		if (_model!.TotalStock == 0)
+		{
+			await _modalWarning.Show("Brak w magazynie");
+			return;
+		}
+
+		_model.ProductQuantity++;
+		//check if quantity is not greater than total stock
+		if (ModelInput != null && _model.ProductQuantity >= ModelInput.TotalStock)
+		{
+			_model.ProductQuantity = ModelInput.TotalStock;
+		}
+	}
+
+	private async Task ButtonDecClick()
+	{
+		Console.WriteLine("Button Dec clicked");
+		if (_model != null && _model.ProductQuantity > 0)
+		{
+			_model.ProductQuantity--;
+		}
+
+		if(_model != null && _model.TotalStock == 0)
+		{
+			await _modalWarning.Show("Brak w magazynie");
+		}
+
+		Logger.LogInformation("Button Dec clicked - logger - another");
+
+
+    }
+
+	//button Add to cart clicked
+	private async Task BtnAddToCartClick()
+	{
+		//if item is not awailable in stock show message
+		if (_model != null && _model.TotalStock == 0)
+		{
+			await _modalWarning.Show("Brak w magazynie");
+			return;
+
+		}
+		
+		//if quantity is 0 show message
+		if (_model != null && _model.ProductQuantity == 0)
+        {
+            await _modalWarning.Show("Wybierz ilość");
+            return;
+        }
+
+
+		//when is ok - callback to parent component
+		await OnAddToCart.InvokeAsync(_model.ProductQuantity);
+		Console.WriteLine("click - product details component");
+	}
+
+
+	private void GoTo(string target)
+	{
+		Console.WriteLine($"Navigating to: {target}");
+		NavigationManager.NavigateTo(target, true);
+	}
+
+	//metgod for convert byte array to image source - and display image in form
+	private string GetImageSrc(byte[]? ImageArray)
+	{
+		if (ImageArray == null || ImageArray.Length == 0)
+			return "https://cdn.iconscout.com/icon/free/png-256/free-photo-camera-1780425-1517754.png";
+		//return null;
+		var base64Image = Convert.ToBase64String(ImageArray);
+		return $"data:image/png;base64,{base64Image}";
+	}
+}

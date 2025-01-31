@@ -1,0 +1,434 @@
+﻿/* .playwrite-au-sa-<uniquifier> {
+	font-family: "Playwrite AU SA", serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+  } */
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* background-color: #333; */
+}
+
+:root {
+    --nav-top-height: 17vh;
+}
+
+body {
+    /* background-color: #555; */
+}
+
+
+
+
+.nav-top {
+z-index: 1;
+}
+
+.sale {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-bottom: 1px solid black;
+    z-index: 1;
+    font-family: "Bricolage Grotesque", serif;
+    text-align: center;
+    background: radial-gradient(circle, red, rgb(0, 0, 0));
+    text-transform: uppercase;
+    box-shadow: 15px 20px 8px rgba(0, 0, 0, 0.6);
+}
+
+    .sale p:nth-child(1) {
+        /* background-color: aqua; */
+        font-size: 45px;
+        font-weight: bold;
+        color: white;
+        margin: 10px 0 5px 0;
+        animation: textPulse 4s infinite;
+    }
+
+    .sale p:nth-child(2) {
+        display: inline;
+        padding: 5px 10px;
+        border-radius: 10px;
+        background-color: black;
+        font-size: 30px;
+        font-weight: bold;
+        color: white;
+        border: 1px solid orange;
+        box-shadow: 0 0 5px 3px red;
+        animation: flame 3s infinite both;
+    }
+
+    .sale p:nth-child(3) {
+        display: inline;
+        position: absolute;
+        /* bottom: 20px; */
+        left: 50%;
+        transform: translate(-50%, 90%) rotate(-10deg);
+        padding: 5px 10px;
+        border-radius: 40px;
+        background-color: rgb(255, 0, 0);
+        font-size: 20px;
+        font-weight: bold;
+        color: white;
+        border: 1px solid orange;
+        box-shadow: 0 0 5px 3px black;
+        z-index: 1;
+        box-shadow: 8px 8px 10px rgba(255, 63, 63, 0.8);
+    }
+
+.banner {
+    margin-top: 12vh;
+    position: relative;
+    height: 85vh;
+    overflow: hidden;
+}
+
+    .banner img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 130%;
+        width: auto;
+        transform: translate(-50%, -50%);
+        / object-fit: cover;
+        max-width: none;
+    }
+
+
+/*.banner img {*/
+/*    height: 85vh;*/
+/*    max-width: 100%;*/
+/*    margin-top: -6vh;*/
+/*}*/
+
+    .banner button {
+        height: 100px;
+        width: 300px;
+        border-radius: 150px;
+        /* background-color: blueviolet; */
+
+        position: absolute;
+        bottom: 25vw;
+        left: 50%;
+        transform: translate(-50%, 0);
+        /*z-index:1;*/
+        font-size: 30px;
+        text-transform: uppercase;
+        border: 2px solid black;
+        box-shadow: 0 0 5px 5px rgb(50, 50, 50);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 10px;
+        animation: buttonShake 3s infinite both;
+    }
+
+@keyframes buttonShake {
+    0%, 100% {
+        transform: translate(-50%, 0) rotate(1deg);
+    }
+
+    5% {
+        transform: translate(-50%, 0) rotate(-3deg);
+    }
+
+    10% {
+        transform: translate(-50%, 0) rotate(3deg);
+    }
+
+    15% {
+        transform: translate(-50%, 0) rotate(-1deg);
+    }
+
+    20% {
+        transform: translate(-50%, 0) rotate(3deg);
+    }
+}
+
+@keyframes textPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    5% {
+        transform: scale(1.1); /* wartość skalowania w połowie animacji */
+    }
+
+    10% {
+        transform: scale(1);
+    }
+
+    20% {
+        transform: scale(1.1);
+    }
+
+    25% {
+        transform: scale(1); /* wartość skalowania w połowie animacji */
+    }
+
+    30% {
+        transform: scale(1);
+    }
+}
+
+@keyframes flame {
+    0% {
+        border: 1px solid rgb(255, 77, 0);
+        box-shadow: 0 0 7px 3px red;
+    }
+
+    20% {
+        border: 1px solid black;
+        box-shadow: 0 0 15px 6px orange;
+    }
+
+    40% {
+        border: 1px solid rgb(255, 77, 0);
+        box-shadow: 0 0 10px 6px rgb(255, 68, 0);
+    }
+
+
+    100% {
+        border: 1px solid rgb(255, 77, 0);
+        box-shadow: 0 0 9px 3px red;
+    }
+}
+
+.banner i {
+    font-size: 60px;
+}
+
+/* discounts */
+
+.discount {
+    margin: 50px 0;
+    height: 100px;
+    width: 100%;
+/*    background-color: blueviolet;*/
+}
+
+/* discounts */
+
+
+
+
+
+
+
+
+.contact {
+    padding: 30px 20px;
+    margin-bottom: 50px;
+}
+
+    .contact h1 {
+        font-family: "Saira Condensed", sans-serif;
+        font-size: 26px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .contact .wrap {
+        padding-top: 20px;
+        max-width: 1024px;
+        margin: 0 auto;
+    }
+
+    .contact input,
+    .contact button,
+    .contact textarea {
+        width: 100%;
+        margin-bottom: 15px;
+        font-family: saira, sans-serif;
+        font-size: 12px;
+        padding: 5px;
+    }
+
+    .contact input {
+        height: 36px;
+    }
+
+    .contact textarea {
+        height: 120px;
+    }
+
+    .contact button {
+        font-size: 14px;
+        line-height: 40px;
+        background-color: rgb(56, 128, 141);
+        color: white;
+        border-radius: 50px;
+    }
+
+    .contact .contact-info {
+        height: 100%;
+        width: 100%;
+    }
+
+        .contact .contact-info i {
+            font-size: 22px;
+        }
+
+        .contact .contact-info span {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+.contact {
+    padding: 0 20px;
+    padding-top: 120px;
+    position: relative;
+    /* background-color: blueviolet; */
+}
+
+    .contact h1 {
+        font-family: "Saira Condensed", sans-serif;
+        font-size: 33px;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        text-align: center;
+        position: absolute;
+        left: 0;
+        top: 40px;
+        width: 100%;
+        background-color: rgb(32, 100, 236);
+        color: white;
+        padding: 2px 0;
+    }
+
+    .contact button {
+        font-size: 14px;
+        line-height: 40px;
+        background-color: rgb(32, 100, 236);
+        color: white;
+        border-radius: 50px;
+        margin-top: 5px;
+    }
+
+    .contact .contact-info {
+        height: 100%;
+        width: 100%;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+        .contact .contact-info div {
+            margin: 20px 20px;
+        }
+
+        .contact .contact-info i {
+            font-size: 38px;
+            color: rgb(32, 100, 236);
+            vertical-align: -6px;
+        }
+
+        .contact .contact-info p {
+            font-size: 20px;
+            display: inline-block;
+            font-weight: bold;
+            margin-left: 30px;
+            font-family: "saira", serif;
+        }
+
+.map {
+    width: 90vw;
+    height: 90vw;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 20px 0;
+}
+
+.types {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5vh;
+    /* background-color: rgb(95, 18, 18); */
+}
+
+.type {
+    width: 90%;
+    /* height: 100vw; */
+
+    margin: 20px 0;
+    /* border: 1px solid black; */
+    box-sizing: border-box;
+    position: relative;
+}
+
+
+    .type img {
+        /* position: relative; */
+        width: 100%;
+        border-radius: 30px;
+    }
+
+    .type h2 {
+        line-height: 40px;
+        padding: 20px 0;
+        position: absolute;
+        display: block;
+        width: 100%;
+        top: 30px;
+        background-color: rgba(0, 0, 0, 0.5);
+        text-transform: capitalize;
+        text-align: center;
+        font-size: 40px;
+        color: white;
+        font-weight: bold;
+        font-family: "Playwrite AU SA", serif;
+        z-index: 1;
+    }
+
+
+
+.toys h2 {
+    background-color: rgba(159, 31, 171, 0.5);
+    z-index: 0;
+}
+
+.chemm h2 {
+    background-color: rgba(50, 101, 220, 0.551);
+    z-index: 0;
+}
+
+.daily h2 {
+    background-color: rgba(193, 85, 18, 0.551);
+    z-index: 0;
+}
+
+.clean h2 {
+    background-color: rgba(64, 88, 112, 0.589);
+    z-index: 0;
+}
+
+.electronics h2 {
+    background-color: rgba(161, 30, 30, 0.54);
+    z-index: 0;
+}
+
+.my-footer {
+    width: 100%;
+    border-top: 1px solid black;
+    font-family: arial, serif;
+    background-color: rgba(0, 0, 0, 0.61);
+    background-color: #050080;
+    
+    z-index: 1;
+}
+
+    .my-footer span {
+        display: block;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+

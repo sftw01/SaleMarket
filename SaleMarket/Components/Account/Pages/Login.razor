@@ -1,0 +1,256 @@
+﻿@page "/Account/Login"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using SaleMarket.Components.Account
+@using SaleMarket.Data
+
+@using SaleMarket.Components.Layout
+@using SaleMarket.Components.Comp.ProductDetailsComponent1
+@using SaleMarket.Components.Comp.FloatingButtonBack
+@using SaleMarket.Components.Comp.Baners
+@using SaleMarket.Classes
+
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ILogger<Login> Logger
+@inject NavigationManager NavigationManager
+@inject IdentityRedirectManager RedirectManager
+
+
+
+
+
+<PageTitle>Log in</PageTitle>
+
+
+
+@* <NavMenu BannerType="BanerType.NavigationSlim" /> *@
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+<div class="login-page-container">
+    <div class="login-page-baner">Logowanie</div>
+    <div>
+            <section>
+
+                <StatusMessage Message="@errorMessage" />
+                <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
+                    <DataAnnotationsValidator />
+                    @* <h2>Use a local account to log in.</h2> *@
+                    <hr />
+
+                    <ValidationSummary class="text-danger" role="alert" />
+
+                    <div class="form-floating mb-3" id="login-page-input">
+                        <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                        <label for="Input.Email" class="form-label">Email</label>
+                        <ValidationMessage For="() => Input.Email" class="text-danger" />
+                    </div>
+
+                    <div class="form-floating mb-3"  >
+                        <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control a" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <label for="Input.Password" class="form-label">Hasło</label>
+                        <ValidationMessage For="() => Input.Password" class="text-danger" />
+                    </div>
+
+
+
+                    <div class="checkbox mb-3">
+                    <label class="form-label">
+                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input"/>
+                            Zapamiętaj
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-100 btn btn-lg btn-primary login-button">Zaloguj</button>
+
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">
+                            <a href="Account/ForgotPassword">Nie pamiętam hasła</a>
+                        </button>
+                    
+
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-100 btn btn-lg btn-primary"><a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register jako nowy user</a></button>
+
+                    </div>
+
+
+                    <div>
+                        <button type="submit" class="w-100 btn btn-lg btn-primary">
+                            <a href="Account/ResendEmailConfirmation">Wyslij link aktywacyjny</a>
+                        </button>
+
+                    </div>
+
+                    @* <div> *@
+                    @*     <p> *@
+                    @*         <a href="Account/ForgotPassword">Nie pamiętam hasła</a> *@
+                    @*     </p> *@
+                    @*     <p> *@
+                    @*         <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register jako nowy user</a> *@
+                    @*     </p> *@
+                    @*     <p> *@
+                    @*         <a href="Account/ResendEmailConfirmation">Wyslij link aktywacyjny</a> *@
+                    @*     </p> *@
+                    @* </div> *@
+                </EditForm>
+            </section>
+
+        <div style="margin: 70px 0;">
+            <section>
+                <h3>Wybierz inny sposób logowania</h3>
+                <hr />
+                @* <ExternalLoginPicker /> *@
+                do zrobienia: ExternalLoginPicker
+            </section>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+<a href="/household" target="_self" onclick="window.location.href=this.href; return false;">
+    <FloatingButtonBack />
+</a>
+
+<FooterStandard />
+
+@code {
+
+    const string UrlHousehold = "/Household";
+
+
+    private string? errorMessage;
+
+    [CascadingParameter]
+    private HttpContext HttpContext { get; set; } = default!;
+
+    [SupplyParameterFromForm]
+    private InputModel Input { get; set; } = new();
+
+    [SupplyParameterFromQuery]
+    private string? ReturnUrl { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (HttpMethods.IsGet(HttpContext.Request.Method))
+        {
+            // Clear the existing external cookie to ensure a clean login process
+            await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+        }
+    }
+
+    public async Task LoginUser()
+    {
+        // This doesn't count login failures towards account lockout
+        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+        var result = await SignInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+        if (result.Succeeded)
+        {
+            Logger.LogInformation("User logged in.");
+            // RedirectManager.RedirectTo(ReturnUrl);
+            RedirectManager.RedirectTo("/Account/");
+        }
+        else if (result.RequiresTwoFactor)
+        {
+            RedirectManager.RedirectTo(
+                "Account/LoginWith2fa",
+                new() { ["returnUrl"] = ReturnUrl, ["rememberMe"] = Input.RememberMe });
+        }
+        else if (result.IsLockedOut)
+        {
+            Logger.LogWarning("User account locked out.");
+            RedirectManager.RedirectTo("Account/Lockout");
+        }
+        else
+        {
+            errorMessage = "Error: Invalid login attempt.";
+        }
+    }
+
+    private sealed class InputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } = "";
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; } = "";
+
+        [Display(Name = "Remember me?")]
+        public bool RememberMe { get; set; }
+    }
+}
+
+
+
+@* <div class="admin-page-container"> *@
+@*     <div class="admin-page-baner">Zaloguj się</div> *@
+@*     <div class="row"> *@
+@*         <div class="col-lg-6"> *@
+@*             <section> *@
+
+
+
+@*                 <StatusMessage Message="@errorMessage" /> *@
+@*                 <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login"> *@
+@*                     <DataAnnotationsValidator /> *@
+@*                     <h2>Use a local account to log in.</h2> *@
+@*                     <hr /> *@
+@*                     <ValidationSummary class="text-danger" role="alert" /> *@
+@*                     <div class="form-floating mb-3"> *@
+@*                         <InputText @bind-Value="Input.Email" id="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" /> *@
+@*                         <label for="Input.Email" class="form-label">Email</label> *@
+@*                         <ValidationMessage For="() => Input.Email" class="text-danger" /> *@
+@*                     </div> *@
+@*                     <div class="form-floating mb-3"> *@
+@*                         <InputText type="password" @bind-Value="Input.Password" id="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" /> *@
+@*                         <label for="Input.Password" class="form-label">Password</label> *@
+@*                         <ValidationMessage For="() => Input.Password" class="text-danger" /> *@
+@*                     </div> *@
+@*                     <div class="checkbox mb-3"> *@
+@*                         <label class="form-label"> *@
+@*                             <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" /> *@
+@*                             Remember me *@
+@*                         </label> *@
+@*                     </div> *@
+@*                     <div> *@
+@*                         <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button> *@
+@*                     </div> *@
+@*                     <div> *@
+@*                         <p> *@
+@*                             <a href="Account/ForgotPassword">Forgot your password?</a> *@
+@*                         </p> *@
+@*                         <p> *@
+@*                             <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a> *@
+@*                         </p> *@
+@*                         <p> *@
+@*                             <a href="Account/ResendEmailConfirmation">Resend email confirmation</a> *@
+@*                         </p> *@
+@*                     </div> *@
+@*                 </EditForm> *@
+@*             </section> *@
+@*         </div> *@
+@*         <div class="col-lg-4 col-lg-offset-2"> *@
+@*             <section> *@
+@*                 <h3>Use another service to log in.</h3> *@
+@*                 <hr /> *@
+@*                 <ExternalLoginPicker /> *@
+@*             </section> *@
+@*         </div> *@
+@*     </div> *@
+@* </div> *@

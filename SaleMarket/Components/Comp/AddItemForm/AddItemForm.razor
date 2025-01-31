@@ -1,0 +1,208 @@
+@using System.ComponentModel.DataAnnotations
+@using SaleMarket.Items
+
+<EditForm Model="@NewItemModel" OnValidSubmit="OnValidSubmit" OnInvalidSubmit="OnInvalidSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="add-item-form">
+        <h2>Dodaj przedmiot do sprzedaży</h2>
+
+        <div class="form-group">
+            <label for="product-name">Nazwa produktu:</label>
+            <InputText id="product-name" placeholder="Wprowadź nazwę produktu" @bind-Value="NewItemModel.ProductName" />
+        </div>
+
+        <div class="form-group">
+            <label for="productCategory">Kategoria produktu:</label>
+            <InputSelect id="productCategory"  @bind-Value="SelectedCategory">
+                @foreach (var category in NewItemModel.ProductCategories)
+                {
+                    <option value="@category">@category</option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-group">
+            <label for="product-price">Cena za sztukę:</label>
+            <InputNumber id="product-price" placeholder="Wprowadź cenę (zł)" @bind-Value="NewItemModel.ProductPrice" />
+        </div>
+
+        <div class="form-group">
+            <label for="product-quantity">Ilość produktów:</label>
+            <InputNumber id="product-quantity" placeholder="Wprowadź ilość sztuk:" @bind-Value="NewItemModel.ProductQuantity" />
+        </div>
+
+        <div class="form-group-availability">
+            <div class="form-group">
+                <label for="availability">Opcja dostępności:</label>
+                <InputSelect id="availability" @bind-Value="NewItemModel.ProductAvailability">
+                    <option value="low">Mała ilość</option>
+                    <option value="medium">Średnia ilość</option>
+                    <option value="high">Duża ilość</option>
+                    <option value="unknow">Stan nieznany</option>
+                </InputSelect>
+
+            </div>
+
+            <div class="form-group">
+                <label>Wyprzedaż:</label>
+                <InputCheckbox id="discount" class="custom-checkbox" @bind-Value="NewItemModel.ProductDiscount" />
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label>Style:</label>
+            <div class="form-group-style">
+
+                <div>
+                    <label>Ramka</label>
+                    <input type="color"  @bind-value="NewItemModel.ProductColorBorder" class="form-control form-control-color" id="exampleColorInput"  title="Choose your color">
+                </div>
+
+                <div>
+                    <label>Przycisk</label>
+                    <input type="color" @bind-value="NewItemModel.ProductColorButton" class="form-control form-control-color" id="exampleColorInput" title="Choose your color">
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="product-description">Opis produktu:</label>
+            <InputTextArea id="product-description" placeholder="Wprowadź opis produktu" @bind-Value="NewItemModel.ProductDescription" />
+        </div>
+
+        <div class="form-group">
+            <label for="technical-details">Dane techniczne:</label>
+            <InputTextArea id="technical-details" placeholder="Wprowadź dane techniczne" @bind-Value="NewItemModel.ProductTechnicalDetails" />
+        </div>
+
+        <ValidationSummary id="validation-summary" />
+
+
+
+
+
+
+        <div class="form-group">
+
+            <label for="product-image">Dodaj zdjęcie produktu:</label>
+
+            <img src="@GetImageSrc(NewItemModel.ProductImage)" />
+
+            <InputFile OnChange="HandleFileSelected" multiple />
+            
+        </div>
+
+
+        <button type="submit" class="submit-button submit-button-success">Dodaj produkt</button>
+
+
+
+
+    </div>
+</EditForm>
+
+<ModalWarning @ref="_modalWarning"></ModalWarning>
+
+@code {
+    //event callback to parent component - when form is valid
+    [Parameter]
+    public EventCallback<NewItemVM> OnValidSubmitCallback { get; set; }
+    
+    private ModalWarning? _modalWarning;
+    private string SelectedCategory { get; set; } = string.Empty;
+
+    //model using in form and next passing to parent component  - when form is valid
+    public NewItemVM NewItemModel { get; set; } = new NewItemVM();
+    
+    protected override void OnInitialized()
+    {
+        
+    }
+
+    //metgod for convert byte array to image source - and display image in form
+    private string GetImageSrc(byte[]? ImageArray)
+    {
+        if (ImageArray == null || ImageArray.Length == 0)
+            return "https://cdn.iconscout.com/icon/free/png-256/free-photo-camera-1780425-1517754.png";
+        //return null;
+        var base64Image = Convert.ToBase64String(ImageArray);
+        return $"data:image/png;base64,{base64Image}";
+    }
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+
+        if (file != null)
+        {
+            // Odczytaj plik jako strumień
+            using var stream = new MemoryStream();
+            await file.OpenReadStream().CopyToAsync(stream);
+
+            // Przypisz odczytane bajty do właściwości ProductImage
+            NewItemModel.ProductImage = stream.ToArray();
+        }
+    }
+
+
+    // private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+
+    //     if (file != null)
+    //     {
+    //         if (file.Size > 2 * 1024 * 1024) 
+    //         {
+    //             _modalWarning?.Show("Plik jest za duży. Maksymalny rozmiar to 2 MB.");
+    //             return;
+    //         }
+
+    //         if (!file.ContentType.StartsWith("image/"))
+    //         {
+    //             _modalWarning?.Show("Nieprawidłowy typ pliku. Wybierz obraz.");
+    //             return;
+    //         }
+
+    //         using var stream = new MemoryStream();
+    //         await file.OpenReadStream(maxAllowedSize: 2 * 1024 * 1024).CopyToAsync(stream);
+    //         NewItemModel.ProductImage = stream.ToArray();
+    //     }
+    // }
+
+    // private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    // {
+    //     var file = e.File;
+    //     NewItemModel.ProductImagePatch = file.Name;
+    //     await Task.CompletedTask;
+    // }
+
+    
+    //method called when form is valid - button submit clicked
+    private void OnValidSubmit(EditContext editContext)
+    {
+        Console.WriteLine("Form is valid");
+        NewItemModel.ProductCategory = SelectedCategory;
+        _modalWarning?.Show("Formularz wypełniony poprawnie");
+        Console.WriteLine(NewItemModel.ProductColorBorder);
+        Console.WriteLine(NewItemModel.ProductColorButton);
+        
+        
+        //invoke event callback and pass data to parent component
+        OnValidSubmitCallback.InvokeAsync(NewItemModel);
+        
+    }
+
+    //hemthod is called when user click submit button and form is invaild
+    private void OnInvalidSubmit(EditContext editContext)
+    {
+        Console.WriteLine("Form is invalid");
+        //invoke modal warning component contained on this page and show message
+        _modalWarning?.Show("Formularz wypełniony niepoprawnie");
+    }
+}

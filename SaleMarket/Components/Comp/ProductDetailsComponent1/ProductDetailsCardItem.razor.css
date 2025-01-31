@@ -1,0 +1,142 @@
+﻿/* font-family: "Playwrite AU SA", serif; */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+
+
+.my-product-item {
+    margin: 5% 0;
+    overflow: hidden;
+    border: 2px solid black;
+    border-radius: 15px;
+    /*tu mozna zmienic dla innych widokow i responsywnosci @media-query*/
+    /*        width: 250px;
+        height: 400px;*/
+
+    width: 45vw;
+    height: 65vw;
+    /*        flex-basis: 45%;*/
+
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.my-product-item img {
+            display: block;
+            height: 60%;
+            width: auto;
+            border-bottom: none;
+            flex-grow: 1;
+        }
+
+    .my-product-item div {
+        font-family: 'saira', Helvetica, sans-serif;
+        padding: 10px;
+        height: 40%;
+    }
+
+.my-product-item p {
+
+        }
+
+    .my-product-item p:nth-last-of-type(2) {
+        font-size: 4vw;
+        /*                font-size: 18px;*/
+        font-weight: bold;
+    }
+
+    .my-product-item p:nth-last-of-type(1) {
+        font-size: 4vw;
+        /*                font-size: 18px;*/
+        float: right;
+        margin: 7%;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+    }
+
+
+
+
+
+
+
+
+/** {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+
+
+:root {
+}
+
+body {
+    padding-top: 20vh;
+}*/
+
+
+/*for obtain spacing in top of page - banner*/
+/*.spacing-top {
+    height: 20vh;
+}
+
+.my-product-list-container {
+    border: 2px solid green;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+    .my-product-list-container .my-product-item {
+        margin: 5% 0;
+        overflow: hidden;
+        border: 1px solid black;
+        border-radius: 15px;
+        width: 45vw;
+        height: 65vw;*/
+        /*        flex-basis: 45%;*/
+    /*}
+
+
+        .my-product-list-container .my-product-item img {
+            display: block;
+            width: 100%;
+            border-bottom: none;
+        }
+
+        .my-product-list-container .my-product-item div {
+            font-family: 'saira', Helvetica, sans-serif;
+            padding: 10px;
+        }
+
+        .my-product-list-container .my-product-item p {
+        }
+
+            .my-product-list-container .my-product-item p:nth-last-of-type(2) {
+                font-size: 4vw;
+                font-weight: bold;
+            }
+
+            .my-product-list-container .my-product-item p:nth-last-of-type(1) {
+                font-size: 4vw;
+                float: right;
+                margin: 5px;
+            }*/
+
+
+
+
+
+
+

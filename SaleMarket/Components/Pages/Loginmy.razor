@@ -1,0 +1,30 @@
+﻿@page "/Loginmy"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Authentication
+@using Microsoft.AspNetCore.Identity
+@using SaleMarket.Components.Account
+@using SaleMarket.Data
+
+@using SaleMarket.Components.Layout
+@using SaleMarket.Components.Comp.ProductDetailsComponent1
+@using SaleMarket.Components.Comp.FloatingButtonBack
+@using SaleMarket.Components.Comp.Baners
+@using SaleMarket.Classes
+
+
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject ILogger<Loginmy> Logger
+@inject NavigationManager NavigationManager
+@inject IdentityRedirectManager RedirectManager
+
+
+
+
+
+<PageTitle>Log in</PageTitle>
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+<FloatingButtonBack NavigationTarget="household" />

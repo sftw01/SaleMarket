@@ -1,0 +1,198 @@
+﻿/* font-family: "Cairo", serif; */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --nav-top-height: 17vh;
+
+    /*button color*/
+    --main-color: rgb(21, 128, 136);
+    /*border color*/
+    --border-color: rgb(21, 128, 136);
+
+    --color-status-led: rgb(89, 237, 70);
+    --color-status-span: rgb(89, 186, 76);
+    /*    --main-color: rgb(21, 236, 82);
+    --color-status-led: rgb(239, 48, 48);
+    --color-status-span: rgb(52, 114, 158);*/
+}
+
+body {
+    height: 200vh;
+/*    overflow: hidden;*/
+    /* border: 10px dotted orange; */
+}
+
+/* header */
+
+.product-details {
+    margin: 20px;
+    border: 2px solid #888;
+    border-color: #888;
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: "Cairo", serif;
+    font-size: 22px;
+    padding: 10px 30px;
+    margin-top: 20vh;
+}
+
+
+    .product-details div {
+        margin: 15px 0;
+    }
+
+.product-details-header p {
+    color: #333;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 8px 0;
+}
+
+
+
+.product-details-header img {
+    width: 50%;
+    border-radius: 20px;
+    border: 3px solid var(--border-color);
+}
+
+
+.product-details .product-details-name {
+    /*    background-color: forestgreen;*/
+/*    font-weight: bold;*/
+    font-size: 30px;
+    margin-bottom: 0;
+/*    background-color: #f1f1f1;
+    padding: 10px 0;*/
+font-family: 'sai ra', 'Arial Narrow', Arial, sans-serif
+}
+
+
+
+.product-details .product-details-price {
+    margin-top: 0px;
+}
+    .product-details-price span:nth-child(1) {
+        /* background-color: aquamarine; */
+
+        font-size: 40px;
+        font-weight: 700;
+        margin-right: 5px;
+    }
+
+    .product-details-price span:nth-child(2) {
+        /* background-color: aqua; */
+    }
+
+/* quantity */
+
+/* .product-details-quantity * {
+	float: left;
+} */
+
+.product-details-quantity {
+    /* border: 1px dotted green; */
+
+    display: flex;
+    align-items: center;
+}
+
+    .product-details-quantity i {
+        border: 1px solid #888;
+        color: #333;
+        box-sizing: content-box;
+        font-size: 30px;
+        line-height: 45px;
+        text-align: center;
+        border-radius: 50%;
+        height: 45px;
+        width: 45px;
+    }
+
+    .product-details-quantity span:nth-of-type(1) {
+        /* border: 2px solid #888; */
+        border-radius: 40px;
+        height: 45px;
+        width: 60px;
+        line-height: 45px;
+        font-size: 30px;
+        text-align: center;
+        margin: 0 15px;
+    }
+
+    .product-details-quantity span:nth-of-type(2) {
+        /* background-color: yellowgreen; */
+        margin-left: 20px;
+    }
+
+.product-details-button {
+    font-size: 20px;
+    background-color: var(--main-color);
+    /* background-color: rgb(62, 144, 202); */
+
+    color: white;
+    width: 100%;
+    border-radius: 100px;
+    margin: 20px 0;
+    padding: 15px 0;
+}
+
+
+/* benefit */
+
+.product-details-benefit {
+    font-size: 20px;
+}
+
+    .product-details-benefit div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        /* border: 1px dotted blueviolet; */
+    }
+
+        .product-details-benefit div div {
+            background-color: var(--color-status-led);
+            height: 10vw;
+            width: 10vh;
+            max-height: 30px;
+            max-width: 30px;
+            border-radius: 50%;
+            /* flex-basis: 10vw; */
+        }
+
+        .product-details-benefit div ~ span {
+            padding-left: 20px;
+        }
+
+    .product-details-benefit span span:nth-of-type(2) {
+        color: var(--color-status-span); /* Kolor tekstu */
+        font-weight: bold; /* Pogrubienie */
+    }
+
+
+
+
+    .product-details-benefit li {
+        margin: 5px 0;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+    }
+
+    .product-details-benefit i {
+        font-size: 30px;
+        flex-basis: 55px;
+        display: flex;
+        justify-content: left;
+    }
+
+    .product-details-benefit li span {
+        /* background-color: aqua; */
+        /* font-size: 30px; */
+    }

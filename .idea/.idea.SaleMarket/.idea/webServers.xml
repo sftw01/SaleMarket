@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="8e207d5c-0c3c-467a-b5ff-15d57bbadfc2" name="root@srv28.mikr.us -p 10346" url="http://srv28.mikr.us">
+        <fileTransfer rootFolder="/var/www/salemarketCICD" accessType="SFTP" host="srv28.mikr.us" port="10346" sshConfigId="45eedb7b-ff81-47d3-9e3c-bd1bdf543cfa" sshConfig="root@srv28.mikr.us:10346 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveTimeout="0" passiveMode="true" shareSSLContext="true" isUseRsync="true" isUseSudo="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

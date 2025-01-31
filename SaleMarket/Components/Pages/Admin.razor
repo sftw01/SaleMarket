@@ -1,0 +1,202 @@
+@using Microsoft.AspNetCore.Authorization
+
+
+@page "/admin"
+@using SaleMarket.Data
+@using SaleMarket.Models
+
+@rendermode InteractiveServer
+
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+
+@attribute [Authorize(Roles = "Admin")]
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+
+<div class="admin-baner">Admin Panel </div>
+
+<AuthorizeView>
+    <div class="admin-info">
+        <p>Poziom Administratora - @context.User.Identity?.Name!</p>
+        @* <p style="background-color: orangered;">Poziom Administratora - @context.User.Identity?.Name!</p> *@
+        @* <p style="background-color: aqua;">Poziom Administratora - @context.User.Identity?.Name!</p> *@
+    </div>
+</AuthorizeView>
+
+
+<div class="admin-container">
+    
+    <div class="admin-button" @onclick="() => GoTo(UrlToAddItem)">
+        <div class="admin-icon">➕</div>
+        <div class="admin-text">Dodaj Artykuł</div>
+    </div>
+
+    <div class="admin-button"@onclick="() => GoTo(UrlHousehold)">
+        <div class="admin-icon">🗑️</div>
+        <div class="admin-text">Usuń Artykuł</div>
+    </div>
+    
+    <div class="admin-button">
+        <div class="admin-icon">⚙️</div>
+        <div class="admin-text">Ustawienia 1</div>
+    </div>
+    
+    <div class="admin-button">
+        <div class="admin-icon">🔧</div>
+        <div class="admin-text">Ustawienia 2</div>
+    </div>
+
+    <div class="admin-button" @onclick="() => GoTo(UrlRegister, true)">
+        <div class="admin-icon">🔒</div>
+        <div class="admin-text">Rejestracja</div>
+    </div>
+
+    <div class="admin-button" @onclick="() => GoTo(UrlLogin, true)">
+        <div class="admin-icon">🔑</div>
+        <div class="admin-text">Logowanie</div>
+    </div>
+    
+
+
+    <div class="admin-button">
+        <form action="Account/Logout" method="post">
+            <AntiforgeryToken />
+            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+            <button type="submit" style="background-color: transparent; border: none;" >
+                <div class="admin-icon">🚷</div>
+                <div class="admin-text">Wyloguj</div>
+            </button>
+        </form>
+    </div>
+
+
+
+    <div class="admin-button" @onclick="() => GoTo(UrlHousehold)">
+        <div class="admin-icon">⛔</div>
+        <div class="admin-text">Zakaz Wejścia!</div>
+    </div>
+
+
+
+
+    <div class="admin-button-back" @onclick="() => GoTo(UrlHousehold)">
+        <div class="admin-icon">↩️</div>
+        <div class="admin-text">return</div>
+    </div>
+
+    @* <AuthorizeView> *@
+    @*     <Authorized> *@
+    @*         <p>Witaj Adminie</p> *@
+    @*     </Authorized> *@
+    @*     <NotAuthorized> *@
+    @*         <p>Brak dostępu</p> *@
+    @*     </NotAuthorized> *@
+    @* </AuthorizeView> *@
+
+</div>
+
+
+<FooterStandard></FooterStandard>
+
+<FloatingButtonBack NavigationTarget="household" />
+
+
+@code{
+
+
+
+    private string? currentUrl;
+
+    //db context
+    [Inject]
+    public ApplicationDbContext Context { get; set; }
+
+    //this is used exclusively to pass parameters correctly to the GoTo method
+    const string UrlHousehold = "/Household";
+    const string UrlToAddItem = "/AddItem";
+    const string UrlLogin = "/Account/Login";
+    const string UrlRegister = "/Account/Register";
+    const string UrlLogout = "/Account/Logout";
+    const string UrlCart = "/Cart";
+    
+    
+    //on created, write message to console and log 
+    protected override void OnInitialized()
+    {
+
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+
+        Console.WriteLine("Admin page initialized");
+
+        StockItem _stockItem = new StockItem();
+        _stockItem.ProductName = "a";
+        _stockItem.ProductPrice = 10.99m;
+        _stockItem.ProductQuantity = 10;
+        _stockItem.ProductCategory = "Test";
+        _stockItem.ProductDescription = "Testowy opis";
+        // _stockItem.Image = "https:www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png";
+        // Context.StockItems.Add(_stockItem);
+        Context.SaveChanges();
+
+
+    }
+    
+    //short way to nawigate to another page, default not to force load
+    private void GoTo(string target, bool forceLoad = false)
+    {
+        Console.WriteLine($"Navigating to: {target}");
+        NavigationManager.NavigateTo(target, forceLoad);
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
+
+
+
+
+        @* <AuthorizeView> *@
+    @*     <Authorized> *@
+    @*         <div class="nav-item px-3"> *@
+    @*             <NavLink class="nav-link" href="Account/Manage"> *@
+    @*                 <span class="bi bi-person-fill-nav-menu" aria-hidden="true"></span> @context.User.Identity?.Name *@
+    @*             </NavLink> *@
+    @*         </div> *@
+    @*         <div class="nav-item px-3"> *@
+    @*             <form action="Account/Logout" method="post"> *@
+    @*                 <AntiforgeryToken /> *@
+    @*                 <input type="hidden" name="ReturnUrl" value="@currentUrl" /> *@
+    @*                 <button type="submit" class="nav-link"> *@
+    @*                     <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout *@
+    @*                 </button> *@
+    @*             </form> *@
+    @*         </div> *@
+    @*     </Authorized> *@
+    @*     <NotAuthorized> *@
+    @*         <div class="nav-item px-3"> *@
+    @*             <NavLink class="nav-link" href="Account/Register"> *@
+    @*                 <span class="bi bi-person-nav-menu" aria-hidden="true"></span> Register *@
+    @*             </NavLink> *@
+    @*         </div> *@
+    @*         <div class="nav-item px-3"> *@
+    @*             <NavLink class="nav-link" href="Account/Login"> *@
+    @*                 <span class="bi bi-person-badge-nav-menu" aria-hidden="true"></span> Login *@
+    @*             </NavLink> *@
+    @*         </div> *@
+    @*     </NotAuthorized> *@
+    @* </AuthorizeView> *@

@@ -1,0 +1,21 @@
+﻿@page "/"
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+
+
+ @* <SurveyPrompt Title="How is Blazor working for you?" /> *@
+
+
+
+@code{
+    protected override void OnInitialized()
+    {
+        NavigationManager.NavigateTo("/welcome", true);
+    }
+    
+    
+}

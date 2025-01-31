@@ -1,0 +1,76 @@
+﻿@page "/ProductDetails7"
+@using SaleMarket.Classes
+@using SaleMarket.ProdDetails
+
+@rendermode InteractiveServer
+
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+
+    <PageTitle>ProductDetails5</PageTitle>
+
+    <NavMenu BannerType="BanerType.Navigation" />
+    <NavMenu BannerType="BanerType.Advertisement" />
+
+    <ProductDetailsComponent1 ModelInput="Model" OnAddToCart="AddedToCart"></ProductDetailsComponent1>
+
+    <ProductDetailsComponent2 Title="Opis produktu" HeaderColor="red"></ProductDetailsComponent2>
+    <ProductDetailsComponent2 Title="Dane techniczne" HeaderColor="black"></ProductDetailsComponent2>
+
+
+    <ProductDetailsComponent2 Title="Opinie klientów" HeaderColor="green"></ProductDetailsComponent2>
+
+    <FooterStandard></FooterStandard>
+
+
+
+
+
+
+
+    <ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+    <FloatingButtonBack NavigationTarget="household"/>
+
+
+
+
+
+
+
+@code {
+
+
+
+
+    private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+    private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+
+    protected override void OnInitialized()
+    {
+
+        Model.ProductPrice = 0.99m;
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Empty;
+        Model.TotalStock = 4;
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Low;
+        Model.ProductColorButton = "#6e2e6d";
+
+        //set navmenu color button
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+
+
+    }
+    
+    //procedute invoked from child component, when user clikcs on Add to cart button
+    private async Task AddedToCart(int quantity)
+    {
+        Console.WriteLine($"Added to cart: {quantity}");
+
+        await _modalAddToCartNotification.Show();
+
+    }
+    
+}

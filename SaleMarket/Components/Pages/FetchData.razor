@@ -1,0 +1,33 @@
+﻿@page "/fetchdata"
+@using SaleMarket.Shared
+@inject HttpClient Http
+@rendermode InteractiveServer
+
+<PageTitle>Weather forecast</PageTitle>
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+<h1>Weather forecast</h1>
+
+<p>This component demonstrates fetching data from the server.</p>
+
+
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Temp. (C)</th>
+                <th>Temp. (F)</th>
+                <th>Summary</th>
+            </tr>
+        </thead>
+
+    </table>
+}
+
+@code {
+
+}

@@ -1,0 +1,60 @@
+﻿@page "/ProductDetails4"
+@using SaleMarket.Classes
+@using SaleMarket.ProdDetails
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+
+@inject IJSRuntime JSRuntime
+
+
+
+
+<PageTitle>ProductDetails4</PageTitle>
+<NavMenu BannerType="BanerType.Navigation" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+
+<ProductDetailsComponent1 ModelInput="Model" OnAddToCart="AddedToCart"></ProductDetailsComponent1>
+
+<FloatingButtonBack NavigationTarget="household"/>
+
+<ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+
+
+
+@code {
+
+
+    private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+    private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+    protected override void OnInitialized()
+    {	
+
+        Model.ProductPrice = 120.00m;
+        Model.TotalStock = 16;
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Full;
+
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Full;
+
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "Blue");
+
+    }
+
+
+    //procedute invoked from child component, when user clikcs on Add to cart button
+    private async Task AddedToCart(int quantity)
+    {
+        Console.WriteLine($"Added to cart: {quantity}");
+
+        await _modalAddToCartNotification.Show();
+
+    }
+
+
+ }

@@ -1,0 +1,170 @@
+@using Microsoft.AspNetCore.Authorization
+
+
+@page "/Account"
+@using SaleMarket.Data
+@using SaleMarket.Models
+
+@rendermode InteractiveServer
+
+@* @implements IDisposable *@
+@inject NavigationManager NavigationManager
+
+<NavMenu BannerType="BanerType.Advertisement" />
+<NavMenu BannerType="BanerType.NavigationSlim" />
+
+
+<div class="account-container">
+
+
+    <AuthorizeView>
+
+
+        <Authorized>
+
+            <div class="account-baner">Panel użytkownika</div>
+
+
+
+            @if (context.User.IsInRole("Admin"))
+            {
+                <div class="account-info">
+                    <p>Poziom Administratora - @context.User.Identity?.Name!</p>
+                </div>
+            } else {
+                <div class="account-info" style="background-color: cornflowerblue">
+                    <p>Poziom Usera - @context.User.Identity?.Name!</p>
+                </div>
+            }
+
+
+            <div class="account-button">
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                    <button type="submit" style="background-color: transparent; border: none;">
+                        <div class="account-icon">🚷</div>
+                        <div class="account-text">Wyloguj</div>
+                    </button>
+                </form>
+            </div>
+
+
+            <div class="account-button" @onclick="() => GoTo(UrlSettings, true)">
+                <div class="admin-icon">⚙️</div>
+                <div class="admin-text">Ustawienia</div>
+            </div>
+
+
+            <div class="account-button">
+                <button type="submit" style="background-color: transparent; border: none;" @onclick="() => GoTo(UrlCart, true)">
+                    <div class="account-icon">🛒</div>
+                    <div class="account-text">Koszyk</div>
+                </button>
+            </div>
+
+
+        </Authorized>
+
+
+
+        <NotAuthorized>
+
+            <div class="account-baner">Zaloguj się lub załóż konto</div>
+            <div class="account-button" @onclick="() => GoTo(UrlRegister, true)">
+                <div class="account-icon">🔒</div>
+                <div class="account-text">Rejestracja</div>
+            </div>
+
+
+            <div class="account-button" @onclick="() => GoTo(UrlLogin, true)">
+                <div class="account-icon">🔑</div>
+                <div class="account-text">Logowanie</div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    @* <div class="account-button" @onclick="() => GoTo(UrlLogin, true)"> *@
+    @*     <div class="account-icon">😏</div> *@
+    @*     <div class="account-text">Admin</div> *@
+    @* </div> *@
+
+
+    <div class="account-button">
+        <form action="Admin">
+            <button type="submit" style="background-color: transparent; border: none;">
+                <div class="account-icon">😏</div>
+                <div class="account-text">Admin</div>
+            </button>
+        </form>
+    </div>
+
+    <div class="account-button-back" @onclick="() => GoTo(UrlAdmin)">
+        <div class="account-icon">↩️</div>
+        <div class="account-text">return</div>
+    </div>
+
+
+</div>
+
+
+<FooterStandard></FooterStandard>
+<FloatingButtonBack NavigationTarget="household" />
+
+
+
+@code {
+
+    private string? currentUrl;
+
+    //db context
+    [Inject]
+    public ApplicationDbContext Context { get; set; }
+
+    //this is used exclusively to pass parameters correctly to the GoTo method
+    const string UrlHousehold = "/Household";
+    const string UrlToAddItem = "/AddItem";
+    const string UrlLogin = "/Account/Login";
+    const string UrlRegister = "/Account/Register";
+    const string UrlLogout = "/Account/Logout";
+    const string UrlCart = "/Cart";
+    const string UrlSettings = "/Account/Settings";
+    const string UrlAdmin = "/Admin";
+
+
+
+    //on created, write message to console and log
+    protected override void OnInitialized()
+    {
+
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+
+        Console.WriteLine("Admin page initialized");
+
+
+    }
+
+    //short way to nawigate to another page, default not to force load
+    private void GoTo(string target, bool forceLoad = false)
+    {
+        Console.WriteLine($"Navigating to: {target}");
+        NavigationManager.NavigateTo(target, forceLoad);
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+}
+
+
+

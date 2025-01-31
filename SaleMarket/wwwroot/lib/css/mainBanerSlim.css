@@ -1,0 +1,266 @@
+﻿
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --nav-top-height: 17vh;
+    --nav-top-min-height: 140px;
+    --nav-top-space: 50px;
+    /*    --baner-color: green;*/
+
+    --nth-selected: 3;
+}
+
+body {
+    /*    height: 200vh;*/
+    /*    padding-top: var(--nav-top-height);*/
+    padding-top: 3px;
+
+}
+
+
+
+/*for baner hide*/
+
+.main-baner-hide-slim {
+    position: sticky;
+
+    top: var(--nav-top-space);
+    right: 25px;
+
+    z-index: 2;
+
+    padding: 0 20px;
+    background: #888;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 50%;
+
+    padding: 10px;
+
+    background-color: rgba(0,0,0,0.65);
+    animation: minimizeBurger 0.6s ease-in-out both reverse;
+}
+
+.main-baner-hide-animate-slim {
+    position: fixed;
+    top: 30px;
+    right: 25px;
+    /* border: 2px dotted green; */
+
+    z-index: 100;
+    padding: 0 20px;
+    background: #888;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 10px;
+    animation: minimizeBurger 1s ease-in-out both;
+}
+
+
+
+@keyframes minimizeBurger {
+    0% {
+        transform: scale(1) rotate(0);
+    }
+
+    20% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(0.2) rotate(90deg);
+        display: none;
+    }
+}
+
+
+.main-baner-hide-slim i {
+    display: none;
+}
+
+    .main-baner-hide-slim i:nth-last-of-type(1) {
+        font-size: 5vh;
+        padding: 1vh;
+        color: #ddd;
+        text-align: center;
+        display: block;
+    }
+
+
+
+.main-baner-hide-slim .nav-baner {
+    display: flex;
+}
+
+
+
+
+.main-baner-hide-slim .click-area {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    transform: scale(1.2);
+    border: 2px dotted #888;
+    border-radius: 50%;
+    position: absolute;
+}
+
+
+
+
+
+
+
+/*for baner expand*/
+.main-baner-show-slim {
+
+    width: 96%;
+    padding-top: 150px;
+    margin-top: 0px;
+    margin-left: 2%;
+    margin-right: 2%;
+    position: absolute;
+    top: 0;
+    right: 0;
+
+
+    /* border: 2px dotted green; */
+
+    z-index: 100;
+
+    padding: 0 20px;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    animation: showBanerBar 1s both;
+}
+
+.main-baner-show-slim i {
+    /* border: 1px solid orange; */
+
+    font-size: 60px;
+    text-align: center;
+    flex-grow: 1;
+    flex-basis: 0;
+    padding: 15px 0;
+    color: #ccc;
+    margin: 5px 10px;
+    /*        display: none;*/
+}
+    .main-baner-show-slim i:nth-last-of-type(1) {
+        display: none;
+
+    }
+    .main-baner-show-slim i {
+        color: #ccc;
+    }
+
+.main-baner-show-slim .nav-baner-slim {
+    /* border: 2px dotted violet; */
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    padding: 30px;
+}
+
+
+
+
+
+/*for baner collapse - with reverse animation*/
+.main-baner-collapse-slim {
+    width: 96%;
+    padding-top: 150px;
+    margin-top: 0px;
+    margin-left: 2%;
+    margin-right: 2%;
+    position: absolute;
+    top: 00px;
+    right: 0;
+    /* border: 2px dotted green; */
+
+    z-index: 100;
+    padding: 0 20px;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0 0 20px 20px;
+    overflow: hidden;
+    /*animation: showBanerBar 1s both reverse;*/
+    animation: hideBanerBar 1s both;
+}
+
+    .main-baner-collapse-slim i {
+        /* border: 1px solid orange; */
+
+        font-size: 60px;
+        text-align: center;
+        flex-grow: 1;
+        flex-basis: 0;
+        padding: 15px 0;
+        color: #ccc;
+        margin: 5px 10px;
+        /*        display: none;*/
+    }
+
+        .main-baner-collapse-slim i:nth-last-of-type(1) {
+            display: none;
+        }
+
+    .main-baner-collapse-slim i {
+        color: #ccc;
+    }
+
+    .main-baner-collapse-slim .nav-baner-slim {
+        /* border: 2px dotted violet; */
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 20px;
+        padding: 30px;
+    }
+
+
+
+
+
+
+
+
+@keyframes showBanerBar {
+    0% {
+        height: 0;
+    }
+
+    100% {
+        height: var(--nav-top-height);
+    }
+}
+
+
+@keyframes hideBanerBar {
+    0% {
+        height: var(--nav-top-height);
+    }
+
+    100% {
+        height: 0;
+    }
+}
+

@@ -1,0 +1,74 @@
+﻿
+
+
+
+
+<div class="modal-notification-warning" style="@_styleOverride">
+
+    @switch (ModalType)
+    {
+        case EnumTypes.ModalType.Info:
+            <i class="fa-solid fa-circle-info"></i>
+            break;
+        case EnumTypes.ModalType.Cart:
+            <i class="fa-solid fa-cart-shopping"></i>
+            break;
+        case EnumTypes.ModalType.Warning:
+            <i class="fa-solid fa-xmark"></i>
+            break;
+        default:
+            <i class="fa-solid fa-toilet-paper"></i>
+            break;
+
+    }
+
+    <span>@TextInfo</span>
+    
+</div>
+
+
+
+@code {
+
+    [Parameter]
+    public EnumTypes.ModalType? ModalType { get; set; }
+    [Parameter]
+    public string? TextInfo { get; set; }
+    
+    
+    private string _styleOverride = "";
+    
+    protected override void OnInitialized()
+    {
+        _styleOverride = "display: none;";
+    }
+    
+    public async Task Show(string textInfo)
+    {
+        TextInfo = textInfo;
+        ShowModal(); 
+        await Task.Delay(1200); 
+        HideModal(); 
+    }
+
+    public async Task Show()
+    {
+        ShowModal(); 
+        await Task.Delay(1200); 
+        HideModal(); 
+    }
+
+    private void HideModal()
+    {
+        _styleOverride = "display: none";
+        StateHasChanged(); 
+    }
+
+    private void ShowModal()
+    {
+        _styleOverride = ""; 
+        StateHasChanged(); 
+    }
+
+
+}

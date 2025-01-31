@@ -1,0 +1,44 @@
+﻿@page "/Emptypage"
+@* @rendermode InteractiveServer *@
+
+@inject NavigationManager NavigationManager
+
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+ @* <NavMenu BannerType="BanerType.Advertisement" /> *@
+
+
+
+
+<div class="empty-page" @onclick="Home">
+	<div class="empty-page-header">
+		<i class="fa-regular fa-circle-xmark"></i>
+		<h2>Page not found</h2>
+	</div>
+
+	<div class="empty-page-return">
+		<i class="fa-solid fa-person-walking-arrow-loop-left"></i>
+
+		<span  >Wróć do sklepu</span>
+	</div>
+</div>
+
+<FloatingButtonBack NavigationTarget="/" Callback="GoTo" />
+
+
+@code {
+	private void GoTo(string target)
+	{
+		Console.WriteLine($"Navigating to: {target}");
+		NavigationManager.NavigateTo(target, true);
+	}
+
+	private void Home()
+    {
+        Console.WriteLine("GoToWelcome - STRONA ");
+        NavigationManager.NavigateTo("/", true);
+    }
+ }

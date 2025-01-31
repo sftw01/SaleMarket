@@ -1,0 +1,148 @@
+﻿@page "/household"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager navigationManager
+@inject NavMenuManager navMenuManager
+
+<PageTitle>Household</PageTitle>
+
+
+
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+
+
+<section class="products-list">
+
+<div class="product-item" @onclick="@(() => GoTo("ProductDetails"))">
+        <img src="img/products-house/deska.webp" alt="">
+        <div>
+            <p>Deska kuchenna</p>
+            <p>11.99 <span>zł</span> </p>
+        </div>
+    </div>
+
+<div class="product-item" @onclick="@(() => GoTo("ProductDetails2"))">
+        <img src="img/products-house/donica.webp" alt="">
+        <div>
+            <p>Donica kwiatowa</p>
+            <p>7.99 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("ProductDetails3"))">
+        <img src="img/products-house/donica2.webp" alt="">
+        <div>
+            <p>Donica kwiatowa</p>
+            <p>6.99 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("ProductDetails4"))">
+        <img src="img/products-house/nozyczki.webp" alt="">
+        <div>
+            <p>Nożyczki uniwersalne</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("ProductDetails5"))">
+        <img src="img/products-house/kubek.webp" alt="">
+        <div>
+            <p>Kubek</p>
+            <p>3.99 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("ProductDetails6"))">
+        <img src="img/products-house/zmiotka.webp" alt="">
+        <div>
+            <p>Zmiotka kuchenna</p>
+            <p>11.49 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("ProductDetails7"))">
+        <img src="img/products-house/scierka.webp" alt="">
+        <div>
+            <p>Recznik - niebieski</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("emptypage"))">
+        <img src="img/products-house/scierka.webp" alt="">
+        <div>
+            <p>Recznik - zielony</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+    <div class="product-item" @onclick="@(() => GoTo("emptypage"))">
+        <img src="img/products-house/trzepaczka.webp" alt="">
+        <div>
+            <p>Trzepaczka</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("emptypage"))">
+        <img src="img/products-house/wieszaki.webp" alt="">
+        <div>
+            <p>Wieszaki 5szt.</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+
+    <div class="product-item" @onclick="@(() => GoTo("emptypage"))">
+        <img src="img/products-house/miotla2.webp" alt="">
+        <div>
+            <p>Nożyczki uniwersalne</p>
+            <p>15.49 <span>zł</span> </p>
+        </div>
+    </div>
+    
+    <FloatingButtonBack NavigationTarget="Welcome#household" Callback="GoTo" />
+
+      @* <button @onclick="GoToWelcome" class="floating-button">  <i class="fa-regular fa-circle-left"></i></button> *@
+
+</section>
+
+
+<div class="footer-product-page">
+    <p>&copy; 2024 SaleMarket. Wszelkie prawa zastrzeżone.</p>
+</div>
+
+
+
+
+
+
+@code {
+
+
+    protected override void OnInitialized()
+    {
+        navMenuManager.SetButtonColor(NavMenuButton.Cart, "green");
+
+    }
+
+
+    private void GoToWelcome()
+    {
+        Console.WriteLine("GoToWelcome - STRONA ");
+        navigationManager.NavigateTo("Welcome#household", true);
+    }
+
+    
+
+ @code {
+     private void GoTo(string target)
+     {
+         Console.WriteLine($"Navigating to: {target}");
+		 navigationManager.NavigateTo(target, true);
+     }
+ }
+
+
+}

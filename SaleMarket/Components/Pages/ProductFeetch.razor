@@ -1,0 +1,108 @@
+﻿@page "/ProductFeetch"
+@using SaleMarket.Classes
+@using SaleMarket.ProdDetails
+@using SaleMarket.Components.Layout
+@using SaleMarket.Components.Comp.ProductDetailsComponent1
+@using SaleMarket.Components.Comp.Footers
+@using SaleMarket.Components.Comp.FloatingButtonBack
+
+
+@using Microsoft.EntityFrameworkCore;
+@using SaleMarket.Models
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+
+@inject ApplicationDbContext _context
+@inject IMapper _mapper
+
+<PageTitle>Product Feetch</PageTitle>
+
+
+<NavMenu BannerType="BanerType.Advertisement" />
+<NavMenu BannerType="BanerType.NavigationSlim"/>
+
+
+<ProductDetailsComponent1 ModelInput="Model" OnAddToCart="AddedToCart"></ProductDetailsComponent1>
+<ProductDetailsComponent2 Title="Opis produktu" HeaderColor="red"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Dane techniczne" HeaderColor="black"></ProductDetailsComponent2>
+<ProductDetailsComponent2 Title="Opinie klientów" HeaderColor="green"></ProductDetailsComponent2>
+
+<FooterStandard></FooterStandard>
+
+<FloatingButtonBack NavigationTarget="household"/>
+<ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification>
+
+
+
+@code {
+
+
+    private ProductDetailsModel Model { get; set; } = new ProductDetailsModel();
+    private ModalAddToCartNotification _modalAddToCartNotification = new ModalAddToCartNotification();
+
+
+
+    protected override void OnInitialized()
+    {
+
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+
+
+        //get data by dbcontext
+        List<StockItem> stockItems = await _context.StockItems.ToListAsync();
+
+        // StockItem stockItem = stockItems[2];
+        StockItem stockItem = stockItems[5];
+
+        Model.TotalStock = stockItem.ProductQuantity;
+        Model.ProductName = stockItem.ProductName;
+        Model.ProductAvailability = stockItem.ProductAvailability;
+        Model.ProductPrice = stockItem.ProductPrice;
+        // Model.ProductQuantityStatus = ProductQuantityStatus.Full;
+        // Model.ProductColorButton = Colors.myColorGreen;
+        // Model.TotalStock = 57;
+
+        Model.ProductColorBorder = stockItem.ProductColorBorder;
+        Model.ProductColorButton = stockItem.ProductColorButton;
+
+
+
+        
+
+        Console.WriteLine($"StockItems name: {stockItem.ProductName}");
+        Console.WriteLine($"StockItems price: {stockItem.ProductPrice}");
+        Console.WriteLine($"StockItems desc: {stockItem.ProductDescription}");
+        Console.WriteLine($"StockItems qty: {stockItem.ProductQuantity}");
+        Console.WriteLine($"StockItems avl: {stockItem.ProductAvailability}");
+
+
+        Console.WriteLine($"Model name: {Model.ProductName}");
+        Console.WriteLine($"Model price: {Model.ProductPrice}");
+        Console.WriteLine($"Model desc: {Model.ProductDescription}");
+        Console.WriteLine($"Model qty: {Model.ProductQuantity}");
+        Console.WriteLine($"Model avl: {Model.ProductAvailability}");
+
+
+
+        //map data to ItemsDetails
+        //Products = _mapper.Map<List<ItemsDetails>>(stockItems);
+        // Model = _mapper.Map<ProductDetailsModel>(stockItems[0]);
+    }
+    
+    //procedute invoked from child component, when user clikcs on Add to cart button
+    private async Task AddedToCart(int quantity)
+    {
+        Console.WriteLine($"Added to cart: {quantity}");
+        await _modalAddToCartNotification.Show();
+
+    }
+
+}

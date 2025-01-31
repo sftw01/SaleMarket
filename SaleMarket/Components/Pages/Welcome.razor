@@ -1,0 +1,144 @@
+﻿@* @inherits LayoutComponentBase *@
+@inherits ComponentBase
+@using Microsoft.AspNetCore.Components.Web;
+
+@rendermode InteractiveServer
+
+@page "/welcome"
+
+
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Welcome</PageTitle>
+
+<NavMenu BannerType="BanerType.Navigation" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+
+<section class="banner">
+	<img src="img/baner.webp" alt="" />
+
+	<button @onclick=GoToShop>
+		<i class="fa-regular fa-circle-down"></i>
+		wejdz
+		<i class="fa-regular fa-circle-down"></i>
+	</button>
+</section>
+
+<div class="discount"></div>
+
+<div class="products" id="products">
+
+
+	<div class="types">
+
+
+		<div class="type toys" @onclick=GoToHousehold>
+			<h2>zabawki</h2>
+			<img src="img/toys.webp" alt="" />
+		</div>
+
+		<div class="type chemm">
+			<h2>chemia</h2>
+
+			<img src="img/chemm.webp" alt="" />
+		</div>
+
+		<div class="type daily">
+			<h2>AGD</h2>
+
+			<img src="img/daily.webp" alt="" />
+		</div>
+
+		<div id="household" class="type clean" @onclick=GoToHousehold>
+			<h2>sprzątanie</h2>
+
+			<img src="img/household-clean.webp" alt="" />
+		</div>
+
+		<a class="type electronics" href="/elektronika">
+			<h2>elektronika</h2>
+
+			<img src="img/electronics.webp" alt="" />
+		</a>
+	</div>
+</div>
+
+<section class="contact">
+	<h1>Skontaktuj się ze mną</h1>
+	<div class="wrap clearfix">
+		<form>
+			<input type="text" placeholder="Twoje imię" />
+			<input type="text" placeholder="Email" />
+			<textarea placeholder="Twoja wiadomość"></textarea>
+			<button>Wyślij wiadomość</button>
+		</form>
+
+		<div class="contact-info">
+			<div>
+				<i class="fa-solid fa-phone"></i>
+				<p>500 700 300</p>
+			</div>
+
+			<div>
+				<i class="fa-regular fa-envelope"></i>
+				<p>mail@domena.pl</p>
+			</div>
+			<div>
+				<i class="fa-brands fa-facebook"></i>
+				<p>StoreApp.Funpage</p>
+			</div>
+
+			<div>
+				<i class="fa-solid fa-location-dot"></i>
+				<p>Kęty ul Bielska 34</p>
+			</div>
+		</div>
+	</div>
+
+	<iframe class="map"
+			src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d905.4880594119453!2d19.931038065051826!3d50.0655579608896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1spl!2spl!4v1735616562106!5m2!1spl!2spl"
+			width="400"
+			height="300"
+			style="border: 0"
+			allowfullscreen=""
+			loading="lazy"
+			referrerpolicy="no-referrer-when-downgrade"></iframe>
+</section>
+
+<footer class="my-footer">
+	<span>footer</span>
+</footer>
+
+
+
+
+
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine("Welcome page initialized");
+
+    }
+
+	private void GoToShop()
+	{
+		// navigationManager.NavigateTo("/testone", true);
+
+		Console.WriteLine("wejdz do sklepu");
+		//scroolowanie do sekcji
+		NavigationManager.NavigateTo("welcome#products", true);
+		StateHasChanged();
+	}
+
+	private void GoToHousehold()
+	{
+		Console.WriteLine("GoToHousehold clicked");
+		NavigationManager.NavigateTo("/household", true);
+	}
+
+	}

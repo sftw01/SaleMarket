@@ -1,0 +1,123 @@
+﻿*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root{
+    --header-color: green;
+}
+
+
+
+.collapsible-section {
+    margin: 20px;
+    border: 2px solid #888;
+    border-radius: 20px;
+    overflow: hidden;
+    font-family: "Cairo", serif;
+    font-size: 22px;
+    padding: 10px 10px;
+
+    margin-top: 00px;
+}
+
+    .collapsible-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 20px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .collapsible-header:hover {
+        background-color: white;
+    }
+
+    .collapsible-header span {
+        font-size: 26px;
+    }
+
+    .collapsible-header .icons i {
+        font-size: 40px;
+        transition: color 0.3s ease;
+    }
+
+    .collapsible-header .icons i:hover {
+        color: #000;
+    }
+
+    .collapsible-content {
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* Stylizacja ikon */
+    /*.collapsible .icons {
+        display: flex;
+        gap: 10px;
+        font-size: 18px;
+        color: #555;
+    }
+
+        .collapsible .icons i {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+            .collapsible .icons i:hover {
+                color: #000;
+            }*/
+
+/* Stylizacja sekcji zawartości */
+/*.content {
+    display: none;*/ /* Ukryte domyślnie */
+    /*padding: 0 20px 20px 20px;
+    border-top: none;
+    animation: fadeIn 0.3s ease;
+}*/
+
+/* Animacja fadeIn */
+/*@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}*/
+
+/* Styl aktywnej sekcji */
+/*.collapsible.active + .content {
+    display: block;
+}*/

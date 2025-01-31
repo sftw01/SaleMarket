@@ -1,0 +1,78 @@
+﻿body {
+}
+
+
+.modal-notification {
+
+
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    background-color: rgba(0,0,0, 0.6);
+
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 25px;
+
+   
+
+    animation: fadeIn 1.4s;
+
+}
+
+    .modal-notification i {
+        color: #555;
+        font-size: 8vmax;
+
+        background-color: #ccc;
+        border-radius: 50%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 25px;
+
+        height: 20vmax;
+        width: 20vmax;
+
+        margin-bottom: 25px;
+
+    }
+
+    .modal-notification span {
+        color: #555;
+        background-color: #ccc;
+        border-radius: 10px;
+        font-size: 3vmax;
+        text-align: center;
+
+        padding: 10px 20px;
+
+    }
+
+
+    @keyframes fadeIn {
+        0% {
+            opacity: 0;
+        }
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            opacity: 0;
+        }
+    }
+
+
+
+

@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Components
+
+@inject NavigationManager NavigationManager
+
+
+
+    @* <div class="my-product-item"> *@
+    @*     <img src="img/products-house/deska.webp" alt=""> *@
+    @*     <div> *@
+    @*         <p>Komponent kuchenna</p> *@
+    @*         <p>124.99 <span>zł</span> </p> *@
+    @*     </div> *@
+    @* </div> *@
+
+
+<div class="my-product-item" @onclick="OnClick">
+    <img src="@GetImageSrc(Product.ProductImage)" />
+    <div>
+        <p>@Product.ProductName</p>
+        <p>@String.Format("{0:0.00}", Product.ProductPrice)<span>zł</span> </p>
+    </div>
+</div>
+
+
+@code {
+
+
+
+    //as a parameter we pass the list of products to show
+    [Parameter]
+    public ItemsDetails Product { get; set; }
+
+
+
+    //metgod for convert byte array to image source - and display image in form
+    private string GetImageSrc(byte[]? ImageArray)
+    {
+        if (ImageArray == null || ImageArray.Length == 0)
+            return "https://cdn.iconscout.com/icon/free/png-256/free-photo-camera-1780425-1517754.png";
+        //return null;
+        var base64Image = Convert.ToBase64String(ImageArray);
+        return $"data:image/png;base64,{base64Image}";
+    }
+
+
+    //when user click on product, then redirect to product details witg id
+    private void OnClick()
+    {
+        NavigationManager.NavigateTo($"Product/{Product.Id}");
+        Console.WriteLine($"Kliknieto {Product.Id} ");
+    }
+
+}

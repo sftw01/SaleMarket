@@ -1,0 +1,140 @@
+﻿
+
+
+
+.account-container {
+    padding-top: 15vh;
+    padding-bottom: 15vh;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+    gap: 20px;
+    background: linear-gradient(90deg, #4facfe, #d1c4fc);
+    /*    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+    gap: 20px;
+    padding: 20px;
+
+    margin-top: 15vh;*/
+}
+
+
+.account-baner {
+
+    background-color: darkslateblue;
+    color: white;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+    box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+    position: sticky;
+    top: 0;
+    width: 90%;
+/*    z-index: 1;*/
+    margin: 20px auto 0 auto;
+    border-radius: 10px;
+    /*border: 3px solid transparent;*/
+    /*box-shadow: 0 0 0px 6px green;*/
+}
+
+
+
+.account-info {
+    position: sticky;
+
+    width: 100%;
+
+    top: 15vh;
+    background-color: #bb0000;
+    color: white;
+    text-align: center;
+    padding: 5px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 0;
+}
+
+    .account-info p {
+        display: inline-block;
+        margin: 0;
+        padding: 3px 0;
+        position: sticky;
+        animation: marquee 5s linear infinite;
+        width: 100%;
+    }
+
+@keyframes marquee {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+.account-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-align: center;
+    box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+    width: 36vw;
+    height: 36vw;
+    box-shadow: 15px 26px 20px darkslateblue;
+    background: #6fbcffc5;
+}
+
+    .account-button:hover {
+        background-color: #e0e0e0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+.account-icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.account-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.account-button-back {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-align: center;
+    width: calc(100% - 40px);
+    margin: 0 auto;
+    box-shadow: 8px 16px 10px darkslateblue;
+    background: #6fbcffc5;
+}
+
+    .account-button-back:hover {
+        background-color: #e0e0e0;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }

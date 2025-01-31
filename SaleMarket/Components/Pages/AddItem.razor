@@ -1,0 +1,109 @@
+@page "/AddItem"
+@using SaleMarket.Items
+@using SaleMarket.Models
+
+@rendermode InteractiveServer
+
+@inject NavigationManager NavigationManager
+@inject NavMenuManager NavMenuManager
+@inject ApplicationDbContext _context
+@inject IMapper _mapper
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+
+
+
+
+<AddItemForm OnValidSubmitCallback="@OnValidItemCallback"></AddItemForm>
+
+
+<FloatingButtonBack NavigationTarget="admin" />
+
+
+
+
+<!-- Toast Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast @ToastClass" role="alert" aria-atomic="true" style="display: @ToastDisplay;">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">@ToastTitle</strong>
+            <small>@ToastTimestamp</small>
+            <button type="button" class="btn-close" @onclick="HideToast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            @ToastMessage
+        </div>
+    </div>
+</div>
+
+
+
+
+@code {
+    // Toast properties
+    private string ToastTitle = "Info DB";
+    private string ToastMessage = "Dodano pomyœlnie do bazy danych.";
+    private string ToastTimestamp = DateTime.Now.ToShortTimeString();
+    private string ToastClass = ""; // CSS class for visibility
+    private string ToastDisplay = "none"; // Default hidden
+
+    // Callback when the form is valid
+    private async Task OnValidItemCallback(NewItemVM newItemVm)
+    {
+        Console.WriteLine("Callback executed! Item was caught from AddItemForm.");
+
+        // Add new item to the database
+        await AddNewItemAsync(newItemVm);
+
+        // Show success toast
+        ShowToast("Sukces", "Dodano pomyœlnie do bazy danych.");
+    }
+
+    private async Task AddNewItemAsync(NewItemVM item)
+    {
+        try
+        {
+
+
+            //using automapper
+            var newItem = _mapper.Map<StockItem>(item);
+
+            // Add new item to the database
+            _context.StockItems.Add(newItem);
+            await _context.SaveChangesAsync();
+
+            Console.WriteLine("Item added successfully.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error adding item: {ex.Message}");
+            ShowToast("B³¹d", $"Nie uda³o siê dodaæ elementu: {ex.Message}");
+        }
+    }
+
+    // Show toast
+    private void ShowToast(string title, string message)
+    {
+        ToastTitle = title;
+        ToastMessage = message;
+        ToastTimestamp = DateTime.Now.ToShortTimeString();
+        ToastClass = "show"; // Bootstrap's 'show' class to make toast visible
+        ToastDisplay = "block"; // Ensure the toast is displayed
+
+        // Automatically hide toast after 3 seconds
+        Task.Delay(3000).ContinueWith(_ =>
+        {
+            HideToast();
+        });
+        StateHasChanged(); // Update UI
+    }
+
+    // Hide toast
+    private void HideToast()
+    {
+        ToastClass = "";
+        ToastDisplay = "none";
+        StateHasChanged(); // Update UI
+    }
+}

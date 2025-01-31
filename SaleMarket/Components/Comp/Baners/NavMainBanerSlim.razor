@@ -1,0 +1,137 @@
+﻿@inject NavMenuManager NavMenuManager
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+
+
+<nav class="@_currentClass" style="--nav-top-height: 24vh; position: fixed;">
+
+
+    <div class="nav-baner-slim">
+
+
+        <i class="fa-solid fa-cart-shopping" @onclick="GoToCart"></i>
+        <i class="fa-solid fa-percent" @onclick="GoToDiscount"></i>
+        <i class="fa-solid fa-house" @onclick="GoToHome"></i>
+        @* <i class="fa-regular fa-user" @onclick="CollapseBaner"></i> *@
+        <i class="fa-regular fa-user" @onclick="GoToLogin"></i>
+
+        <i class="fa-solid fa-bars"></i>
+
+        <div class="click-area" @onclick="ExpandBaner"></div>
+    </div>
+
+    <style>
+        .main-baner-show-slim i:nth-last-of-type(@_buttonSelected) {
+            color: @_buttonColor;
+        }
+
+        .main-baner-collapse-slim i:nth-last-of-type(@_buttonSelected) {
+            color: @_buttonColor;
+        }
+    </style>
+</nav>
+
+
+
+@code {
+    private string? _buttonColor;
+    private string? _buttonSelected;
+
+    private static readonly string BurgerAnimate = "main-baner-hide-slim main-baner-hide-animate-slim";
+    private static readonly string BurgerStatic = "main-baner-hide-slim";
+
+    private static readonly string BarExpand = "main-baner-show-slim";
+
+    private static readonly string BarCollapseReverse = "main-baner-collapse-slim";
+
+    private string _currentClass = BurgerStatic;
+    private bool _isExpanded = false;
+
+    protected override void OnInitialized()
+    {
+        ReadButtonStatus();
+        StateHasChanged();
+    }
+
+    private void ReadButtonStatus()
+    {
+        _buttonColor = NavMenuManager.ButtonColor;
+        int strButtonSelected = (int)NavMenuManager.SelectedButton;
+        _buttonSelected = strButtonSelected.ToString();
+    }
+
+    private async Task ExpandBaner()
+    {
+        if (_isExpanded)
+            return; 
+
+        _isExpanded = true;
+        _currentClass = BurgerAnimate;
+        StateHasChanged();
+
+        //waiting for animation
+        await Task.Delay(300);
+
+        StateHasChanged();
+        _currentClass = BarExpand;
+        StateHasChanged();
+        Console.WriteLine("Baner expanded");
+        
+        //after few seconds collapse banner
+        await Task.Delay(2000);
+        await CollapseBaner();
+        StateHasChanged();
+    }
+
+    private async Task CollapseBaner()
+    {
+        if (!_isExpanded)
+            return; 
+
+        _isExpanded = false;
+        Console.WriteLine("Baner collapsed start");
+        _currentClass = BarCollapseReverse;
+        StateHasChanged();
+        await Task.Delay(800);
+        Console.WriteLine("Baner collapsed end");
+
+        _currentClass = BurgerStatic; //set burger to static - floating button
+        StateHasChanged();
+
+        Console.WriteLine("Baner collapsed");
+    }
+
+    private void GoToCart()
+    {
+        NavMenuManager.SetButtonColor(NavMenuButton.Cart, "green");
+        ReadButtonStatus();
+        NavigationManager.NavigateTo("/cart", true);
+    }
+
+    private void GoToDiscount()
+    {
+        NavMenuManager.SetButtonColor(NavMenuButton.Discount, "blue");
+        ReadButtonStatus();
+        NavigationManager.NavigateTo("/ProductDetails3", true);
+    }
+
+    private void GoToHome()
+    {
+        NavMenuManager.SetButtonColor(NavMenuButton.Home, "red");
+        ReadButtonStatus();
+        NavigationManager.NavigateTo("/", true);
+    }
+
+    private void GoToLogin()
+    {
+        NavMenuManager.SetButtonColor(NavMenuButton.Login, "orange");
+        ReadButtonStatus();
+        NavigationManager.NavigateTo("/Account", true);
+    }
+
+    // private async Task ScrollToTop()
+    // {
+    //     await JsRuntime.InvokeVoidAsync("scrollToTop");
+    // }
+}

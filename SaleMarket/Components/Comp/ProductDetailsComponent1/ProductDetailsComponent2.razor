@@ -1,0 +1,112 @@
+﻿@using Microsoft.AspNetCore.Components
+
+<div class="collapsible-section">
+    <div class="collapsible-header" @onclick="Toggle">
+        <span style="@HeaderColorClass">@Title</span>
+        <div class="icons">
+@*             <i class="fa-solid fa-plus" style="display:@(IsExpanded ? "none" : "inline")"></i>
+            <i class="fa-solid fa-minus" style="display:@(IsExpanded ? "inline" : "none")"></i> *@
+            <i class="fa-solid fa-plus" style="display:@(IsExpanded ? "none" : "inline")"   ></i>
+            <i class="fa-solid fa-minus" style="display:@(IsExpanded ? "inline" : "none")   "></i>
+        </div>
+    </div>
+    <div class="collapsible-content" style="@(IsExpanded ? "max-height: 500px; padding: 20px;" : "max-height: 0; padding: 0 20px;")">
+        @* @ChildContent *@
+        @Content
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public string? Title { get; set; }
+    [Parameter]
+    public string? HeaderColor { get; set; } = "color: red;";
+    private string HeaderColorClass => HeaderColor != null ? $"color: {HeaderColor.ToLower()}" : "";
+
+    // [Parameter]
+    // public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string? Content { get; set; }
+
+    private bool IsExpanded { get; set; } = false;
+
+    private void Toggle()
+    {
+        IsExpanded = !IsExpanded;
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using Microsoft.Extensions.Logging
+@inject NavigationManager navigationManager
+
+@inject ILogger<ProductDetailsComponent1> logger
+@inject ILoggerFactory loggerFactory
+
+
+<div class="product-details2">
+    <!-- Collapsible 1 -->
+    <div class="collapsible">
+        <span>Opis produktu</span>
+        <div class="icons">
+            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-minus" style="display: none;"></i>
+        </div>
+    </div>
+    <div class="content">
+        <p>To jest szczegółowy opis produktu. Tutaj możesz umieścić wszelkie informacje dotyczące produktu, takie jak materiały, zastosowanie, zalety itp.</p>
+    </div>
+
+    <!-- Collapsible 2 -->
+    <div class="collapsible">
+        <span>Dane techniczne</span>
+        <div class="icons">
+            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-minus" style="display: none;"></i>
+        </div>
+    </div>
+    <div class="content">
+        <p>Oto dane techniczne produktu. Możesz tutaj podać specyfikacje, wymiary, wagę, zużycie energii itp.</p>
+    </div>
+
+    <!-- Collapsible 3 -->
+    <div class="collapsible">
+        <span>Opinie Klientów</span>
+        <div class="icons">
+            <i class="fa-solid fa-plus"></i>
+            <i class="fa-solid fa-minus" style="display: none;"></i>
+        </div>
+    </div>
+    <div class="content">
+        <p>Klienci mówią: „Świetny produkt! Polecam każdemu.”</p>
+        <p>„Doskonała jakość i szybka dostawa.”</p>
+    </div>
+</div>
+
+
+
+
+
+
+@code {
+
+	
+} *@

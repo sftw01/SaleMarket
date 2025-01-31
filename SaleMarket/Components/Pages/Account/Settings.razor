@@ -1,0 +1,147 @@
+@using Microsoft.AspNetCore.Authorization
+
+
+@page "/Account/Settings"
+@using SaleMarket.Data
+@using SaleMarket.Models
+
+@rendermode InteractiveServer
+
+@* @implements IDisposable *@
+@inject NavigationManager NavigationManager
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+
+<div class="account-container">
+
+
+    <AuthorizeView>
+
+
+
+        <Authorized>
+            Hello @context.User.Identity?.Name!
+
+            <div class="account-baner">Ustawienia</div>
+
+
+            <div class="account-button">
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                    <button type="submit" style="background-color: transparent; border: none;">
+                        <div class="account-icon">🚷</div>
+                        <div class="account-text">Wyloguj</div>
+                    </button>
+                </form>
+            </div>
+
+
+            <div class="admin-button" @onclick="() => GoTo(UrlCart, true)">
+                <div class="admin-icon">⚙️</div>
+                <div class="admin-text">Ustawienia</div>
+            </div>
+
+
+            <div class="account-button">
+                @* <form action="Account/Logout" method="post"> *@
+                @* <AntiforgeryToken /> *@
+                @* <input type="hidden" name="ReturnUrl" value="@currentUrl" /> *@
+                <button type="submit" style="background-color: transparent; border: none;" @onclick="() => GoTo(UrlCart, true)">
+                    <div class="account-icon">🛒</div>
+                    <div class="account-text">Koszyk</div>
+                </button>
+                @* </form> *@
+            </div>
+
+
+        </Authorized>
+
+
+
+        <NotAuthorized>
+
+            <div class="account-baner">Zaloguj się lub załóż konto</div>
+            <div class="account-button" @onclick="() => GoTo(UrlRegister, true)">
+                <div class="account-icon">🔒</div>
+                <div class="account-text">Rejestracja</div>
+            </div>
+
+            <div class="account-button" @onclick="() => GoTo(UrlLogin, true)">
+                <div class="account-icon">🔑</div>
+                <div class="account-text">Logowanie</div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+
+
+
+    <div class="account-button-back" @onclick="() => GoTo(UrlHousehold)">
+        <div class="account-icon">↩️</div>
+        <div class="account-text">return</div>
+    </div>
+
+
+</div>
+
+
+<FooterStandard></FooterStandard>
+<FloatingButtonBack NavigationTarget="household" />
+
+@* <ModalAddToCartNotification @ref="_modalAddToCartNotification"></ModalAddToCartNotification> *@
+
+@code {
+
+    private string? currentUrl;
+
+    //db context
+    [Inject]
+    public ApplicationDbContext Context { get; set; }
+
+    //this is used exclusively to pass parameters correctly to the GoTo method
+    const string UrlHousehold = "/Household";
+    const string UrlToAddItem = "/AddItem";
+    const string UrlLogin = "/Account/Login";
+    const string UrlRegister = "/Account/Register";
+    const string UrlLogout = "/Account/Logout";
+    const string UrlCart = "/Cart";
+
+
+
+    //on created, write message to console and log
+    protected override void OnInitialized()
+    {
+
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+
+
+        Console.WriteLine("Admin page initialized");
+
+
+    }
+
+    //short way to nawigate to another page, default not to force load
+    private void GoTo(string target, bool forceLoad = false)
+    {
+        Console.WriteLine($"Navigating to: {target}");
+        NavigationManager.NavigateTo(target, forceLoad);
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+
+}
+
+
+

@@ -1,0 +1,50 @@
+﻿
+
+
+
+
+<div class="modal-notification"  style="@_styleOverride">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <span>Produkt dodany do koszyka</span>
+
+
+
+</div>
+
+
+
+@code {
+
+
+
+    private string _styleOverride = "";
+
+    // on initialized async
+    protected override void  OnInitialized()
+    {
+        _styleOverride = "display: none";
+    }
+
+    public async Task Show()
+    {
+        Console.WriteLine("Show modal notification");
+        ShowModal(); // Pokaż modal
+        await Task.Delay(1200); // Poczekaj 1,2 sekundy
+        Console.WriteLine("Hide modal notification");
+        HideModal(); // Ukryj modal
+    }
+
+    private void HideModal()
+    {
+        _styleOverride = "display: none"; // Ustaw styl na ukrycie
+        StateHasChanged(); // Odśwież komponent Blazor
+    }
+
+    private void ShowModal()
+    {
+        _styleOverride = ""; // Ustaw styl na pokazanie
+        StateHasChanged(); // Odśwież komponent Blazor
+    }
+
+
+}

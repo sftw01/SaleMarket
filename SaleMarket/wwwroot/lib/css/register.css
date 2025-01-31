@@ -1,0 +1,102 @@
+﻿
+
+
+
+/*
+    #254262
+    #149da5
+    #51e4ba
+    #8cf1a3
+*/
+
+.register-page-container {
+    /*    width: 100%;*/
+    /*    height: 100vh;*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    align-content: space-around;
+    gap: 20px;
+    padding: 20px;
+    /*    background: linear-gradient(to right, #FF5733, #33C1FF);*/
+    background: linear-gradient(to right, #678319, #33C1FF);
+    padding-top: 20vh;
+/*    margin-top: vh;*/
+}
+
+    .register-page-container .register-page-baner {
+        background: linear-gradient(to right, #33C1FFcc, #678319aa);
+        color: white;
+        text-align: center;
+        padding: 20px 0;
+        font-size: 24px;
+        font-weight: bold;
+        box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+        /*        position: sticky;*/
+        top: 0;
+        width: 90%;
+        /*    z-index: 1;*/
+        margin: 20px auto 40px auto;
+        border-radius: 10px;
+        /*border: 3px solid transparent;*/
+        /*box-shadow: 0 0 0px 6px green;*/
+    }
+
+    .register-page-container .login-input-color {
+        background-color: #f0f0f0;
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px;
+        width: 40%;
+        box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+
+    }
+
+    .register-page-container .form-control {
+        /*rgba*/
+        margin: 30px 0;
+        background-color: #3CF6;
+        border: 2px solid #33C1FF;
+        border-radius: 10px;
+        padding: 20px;
+        width: 75vw;
+/*        width: 100%;*/
+
+        box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .register-page-container .register-button {
+        margin: 20px 0;
+        background: linear-gradient(to right, #33C1FFcc, #FF5733bb);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 30px 20px;
+        width: 100%;
+        box-shadow: 5px 6px 10px rgba(0, 0, 0, 0.5);
+        font-size: 24px;
+    }
+
+    .register-page-container button {
+        margin-top: 20px;
+        background: linear-gradient(to right, #149da5, #51e4);
+        border: 2px solid #ccc;
+        border-radius: 10px;
+        padding: 20px 20px;
+        width: 100%;
+        box-shadow: 15px 16px 10px rgba(0, 0, 0, 0.5);
+        font-size: 18px;
+    }
+
+    .register-page-container a {
+        color: #149da5;
+        text-decoration: none;
+        color: white;
+        letter-spacing: 1px;
+    }
+
+    .register-page-container .form-check-input {
+        background-color: #51e4;
+        border: 2px solid #149da5;
+    }

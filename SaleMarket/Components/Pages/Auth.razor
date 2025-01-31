@@ -1,0 +1,21 @@
+﻿@page "/auth"
+
+@using Microsoft.AspNetCore.Authorization
+@inject NavigationManager navigationManager
+@inject NavMenuManager navMenuManager
+
+@* @attribute [Authorize] *@
+
+<PageTitle>Auth</PageTitle>
+
+<NavMenu BannerType="BanerType.NavigationSlim" />
+<NavMenu BannerType="BanerType.Advertisement" />
+
+<AuthorizeView>
+    <Authorized>
+        <p>Witaj @context.User.Identity?.Name!</p>
+    </Authorized>
+    <NotAuthorized>
+        <p>Witaj nieznajomy!</p>
+    </NotAuthorized>
+</AuthorizeView>

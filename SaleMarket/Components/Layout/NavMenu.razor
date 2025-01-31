@@ -1,0 +1,40 @@
+﻿
+
+@* @if(_currentBaner == BanerType.Navigation) *@
+@* { *@
+@*     Console.WriteLine("NavMainBaner"); *@
+@*     <NavMainBaner /> *@
+@* } *@
+
+
+@if (_currentBaner == BanerType.NavigationSlim)
+{
+    Console.WriteLine("NavMainBanerSlim");
+    <NavMainBanerSlim />
+}
+
+else if(_currentBaner == BanerType.Advertisement)
+{
+    Console.WriteLine("NavAdvertBaner");
+    <NavAdvertBaner />
+}
+@* else
+{
+    Console.WriteLine("No baner selected");
+   
+} *@
+
+
+
+@code {
+    private BanerType _currentBaner = BanerType.Navigation ;
+
+    [Parameter]
+    public BanerType BannerType { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+        _currentBaner = BannerType;
+    }
+}

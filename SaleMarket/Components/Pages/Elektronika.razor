@@ -1,0 +1,90 @@
+﻿@using Microsoft.EntityFrameworkCore;
+@using SaleMarket.Models
+
+
+@page "/Elektronika"
+
+@rendermode InteractiveServer
+
+@inject NavigationManager navigationManager
+@inject NavMenuManager navMenuManager
+
+@inject ApplicationDbContext _context
+@inject IMapper _mapper
+
+<PageTitle>Elektronika</PageTitle>
+
+
+<NavMenu BannerType="BanerType.Advertisement" />
+<NavMenu BannerType="BanerType.NavigationSlim" />
+
+<div class="category-page">
+    <div class="space"></div>
+    <div class="category-banner">
+        <h1>Elektronika</h1>
+    </div>
+
+</div>
+
+
+<ProductDetailsCard Products="Products"></ProductDetailsCard>
+
+<FloatingButtonBack NavigationTarget="Welcome#household" Callback="GoTo" />
+
+<FooterStandard />
+
+
+
+
+
+@code {
+
+    public List<ItemsDetails> Products { get; set; }
+    
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        //get data by dbcontext
+        List<StockItem> stockItems = await _context.StockItems.ToListAsync();
+
+        //map data to ItemsDetails
+        Products = _mapper.Map<List<ItemsDetails>>(stockItems);
+    }
+
+
+    protected override void OnInitialized()
+    {
+        navMenuManager.SetButtonColor(NavMenuButton.Cart, "green");
+
+    }
+
+
+    // private string GetImageSrc(byte[]? ImageArray)
+    // {
+    //     if (ImageArray == null || ImageArray.Length == 0)
+    //         return "https:cdn.iconscout.com/icon/free/png-256/free-photo-camera-1780425-1517754.png";
+    //     return null;
+    //     var base64Image = Convert.ToBase64String(ImageArray);
+    //     return $"data:image/png;base64,{base64Image}";
+    // }
+
+    private void GoToWelcome()
+    {
+        Console.WriteLine("GoToWelcome - STRONA ");
+        navigationManager.NavigateTo("Welcome#household", true);
+    }
+
+    
+
+
+     private void GoTo(string target)
+     {
+         Console.WriteLine($"Navigating to: {target}");
+		 navigationManager.NavigateTo(target, true);
+     }
+ 
+
+
+}

@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Components
+
+
+
+<div class="spacing-top"></div>
+
+<div class="my-product-list-container">
+
+    @if (Products != null)
+    {
+        foreach (var product in Products)
+        {
+            <ProductDetailsCardItem Product="@product"></ProductDetailsCardItem>
+        }
+    }
+    else {
+        <p>Brak produktów</p>
+    }
+
+</div>
+
+
+@code{
+
+    //as a parameter we pass the list of products to show
+    [Parameter]
+    public List<ItemsDetails> Products { get; set; }
+
+
+
+
+}

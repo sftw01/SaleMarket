@@ -1,0 +1,65 @@
+@using SaleMarket.Components.Comp.Modals
+@using SaleMarket.Shared.Classes
+
+
+<div class="cart-item">
+    <img src="img/laundry-detergent.webp" alt="Product Name" class="cart-item-image" />
+    <div class="cart-item-details">
+        <h4 class="cart-item-name">@_cartItemModel?.ProductName</h4>
+        <div class="cart-item-quantity">
+            <div>
+                <i class="fa-solid fa-minus" @onclick="ButtonDecClick"></i>
+                <span>@_cartItemModel?.ProductQuantity</span>
+                <i class="fa-solid fa-plus" @onclick="ButtonIncClick"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="cart-item-summary">
+        <span class="cart-item-total-price"> <span>Suma:</span> @_cartItemModel?.TotalPrice</span>
+        <span class="cart-item-unit-price">@_cartItemModel?.ProductPrice<span>zł/szt</span> </span>
+        <button class="cart-item-remove" title="Remove item">
+            <i class="fa-regular fa-trash-can"></i>
+        </button>
+    </div>
+</div>
+
+
+<ModalWarning ModalType="EnumTypes.ModalType.Info" @ref="_modalWarning"></ModalWarning>
+
+@code {
+    
+    
+    // cart item model
+    private CartItemModel? _cartItemModel;
+    private ModalWarning _modalWarning = new ModalWarning();
+
+    protected override void OnInitialized()
+    {
+        _cartItemModel = new CartItemModel()
+        {
+            ProductId = Guid.NewGuid(),
+            ProductName = "Proszek do prania \"Lorem Ipsum\"",
+            ProductPrice = 24.59m,
+            ProductQuantity = 3
+                
+        };
+    }
+
+    private void ButtonIncClick()
+    {
+        _cartItemModel.ProductQuantity++;
+        Console.WriteLine("button inc clicked");
+        
+    }
+
+    private void ButtonDecClick()
+    {
+        Console.WriteLine("button inc clicked");
+        if (_cartItemModel.ProductQuantity > 1)
+        {
+            _cartItemModel.ProductQuantity--;
+        }
+    }
+    
+}
