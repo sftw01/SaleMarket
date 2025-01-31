@@ -1,0 +1,40 @@
+name: Deploy SaleMarket to Mikr.us
+
+on:
+  push:
+    branches:
+      - master  # Wdrażaj tylko po pushu do main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name:  Pobranie kodu
+        uses: actions/checkout@v3
+
+      - name:  Ustawienie danych uwierzytelniających Git
+        run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
+          git config --global credential.helper store
+          echo "https://${{ secrets.GITHUB_TOKEN }}@github.com" > ~/.git-credentials
+
+      - name:  Połączenie przez HTTPS i wdrożenie na VPS
+        run: |
+          sshpass -p "${{ secrets.VPS_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << 'EOF'
+            echo ">>> Przechodzę do katalogu aplikacji"
+            cd /var/www/git/SaleMarket
+
+            echo ">>> Pobieram najnowsze zmiany z GitHuba"
+            git pull origin main
+
+            echo ">>> Buduję aplikację Blazor Server do /var/www/publish/"
+            dotnet publish /var/www/git/SaleMarket/SaleMarket.csproj -c Release -o /var/www/publish
+
+            echo ">>> Restartuję usługę SaleMarket"
+            sudo systemctl restart salemarket
+
+            echo ">>> Sprawdzam status usługi"
+            sudo systemctl status salemarket --no-pager
+          EOF
