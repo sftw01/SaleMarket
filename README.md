@@ -1,4 +1,4 @@
-SaleMarket - App
+SaleMarket - MobileApp
 
 https://salemarket.toadres.pl/welcome
 
